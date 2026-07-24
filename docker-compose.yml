@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  # Next.js Frontend Web Application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: him_os_frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_FASTAPI_URL=http://backend:8000
+    depends_on:
+      - backend
+
+  # FastAPI Microservices Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: him_os_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000

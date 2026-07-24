@@ -1,0 +1,155 @@
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Card } from '@/shared/ui/Card';
+import { Badge } from '@/shared/ui/Badge';
+import { Button } from '@/shared/ui/Button';
+import { FinanceService } from '@/domain/finance/service';
+import { AssetAccount, AccountType } from '@/domain/finance/types';
+
+export default function FinancePage() {
+  const [accounts, setAccounts] = useState<AssetAccount[]>([]);
+  const [netWorth, setNetWorth] = useState<number>(0);
+  const [showAdd, setShowAdd] = useState(false);
+  const [name, setName] = useState('');
+  const [type, setType] = useState<AccountType>('brokerage');
+  const [institution, setInstitution] = useState('');
+  const [balance, setBalance] = useState<number>(500000);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
+    setAccounts(FinanceService.getAccounts());
+    setNetWorth(FinanceService.computeNetWorth());
+  };
+
+  const handleAddAccount = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+
+    FinanceService.createAccount({
+      name,
+      type,
+      currency: 'NGN',
+      institution: institution || 'Financial Institution',
+      currentBalance: balance,
+    });
+
+    setName('');
+    setInstitution('');
+    setShowAdd(false);
+    loadData();
+  };
+
+  const handleUpdateBalance = (accountId: string, newBalance: number) => {
+    FinanceService.logSnapshot(accountId, newBalance);
+    loadData();
+  };
+
+  return (
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+      {/* Header */}
+      <div className="flex items-center justify-between pb-6 border-b border-gray-800">
+        <div>
+          <div className="flex items-center space-x-3 mb-1">
+            <h1 className="text-3xl font-serif font-bold text-gray-100">Financial Operating System</h1>
+            <Badge variant="gold">Generic Asset Accounts (NGN ₦)</Badge>
+          </div>
+          <p className="text-xs text-gray-400">
+            Net worth is computed from live account balance snapshots — never hardcoded to specific platforms.
+          </p>
+        </div>
+        <Button variant="primary" onClick={() => setShowAdd(!showAdd)}>
+          {showAdd ? 'Cancel' : '+ Add Asset Account'}
+        </Button>
+      </div>
+
+      {/* Net Worth Summary Banner */}
+      <Card goldBorder className="p-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs text-gray-400 uppercase font-mono tracking-wider">Total Net Worth</p>
+            <h2 className="text-4xl font-bold text-gray-100 font-mono mt-1">
+              {FinanceService.formatCurrencyNGN(netWorth)}
+            </h2>
+            <p className="text-xs text-emerald-400 mt-1">↑ Calculated from {accounts.length} Asset Accounts</p>
+          </div>
+          <div className="flex space-x-3">
+            <Badge variant="green" className="text-xs py-1 px-3">Emergency Fund: 6 Months</Badge>
+            <Badge variant="gold" className="text-xs py-1 px-3">Currency: NGN (₦)</Badge>
+          </div>
+        </div>
+      </Card>
+
+      {/* New Account Form */}
+      {showAdd && (
+        <Card className="space-y-4">
+          <h3 className="text-base font-serif font-semibold text-gray-100">Register Asset Account</h3>
+          <form onSubmit={handleAddAccount} className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <input
+              type="text"
+              placeholder="Account Name (e.g. VOO, PiggyVest)"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-100 focus:outline-none"
+              required
+            />
+            <select
+              value={type}
+              onChange={(e: any) => setType(e.target.value)}
+              className="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-100 focus:outline-none"
+            >
+              <option value="brokerage">Brokerage / Stocks</option>
+              <option value="savings">Savings / Yield</option>
+              <option value="cash">Cash Reserve</option>
+              <option value="crypto">Crypto</option>
+              <option value="real_estate">Real Estate</option>
+            </select>
+            <input
+              type="number"
+              placeholder="Initial Balance (NGN)"
+              value={balance}
+              onChange={(e) => setBalance(Number(e.target.value))}
+              className="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-100 focus:outline-none"
+            />
+            <Button type="submit" variant="primary" size="sm">
+              Save Account
+            </Button>
+          </form>
+        </Card>
+      )}
+
+      {/* Accounts Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {accounts.map((acc) => (
+          <Card key={acc.id} className="space-y-3 flex flex-col justify-between">
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <Badge variant="blue" className="uppercase text-[9px]">
+                  {acc.type}
+                </Badge>
+                <span className="text-[10px] text-gray-500">{acc.institution}</span>
+              </div>
+              <h3 className="text-sm font-semibold text-gray-200">{acc.name}</h3>
+              <p className="text-2xl font-mono font-bold text-[#C9A84C] mt-1">
+                {FinanceService.formatCurrencyNGN(acc.currentBalance)}
+              </p>
+            </div>
+
+            <div className="border-t border-gray-800/80 pt-3">
+              <label className="text-[10px] text-gray-500 block mb-1">Update Snapshot Balance (NGN):</label>
+              <input
+                type="number"
+                value={acc.currentBalance}
+                onChange={(e) => handleUpdateBalance(acc.id, Number(e.target.value))}
+                className="w-full bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-xs text-gray-100 font-mono focus:outline-none focus:border-[#C9A84C]"
+              />
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
