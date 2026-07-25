@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
 import { Badge } from './Badge';
 import { Button } from './Button';
+import { Sparkles, ChevronDown, ChevronUp, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { AiCopilotService, AiCopilotAnalysis } from '@/core/ai/aiCopilot';
 
 export const AiCopilotWidget: React.FC = () => {
@@ -17,22 +18,32 @@ export const AiCopilotWidget: React.FC = () => {
   if (!analysis) return null;
 
   return (
-    <Card goldBorder className="space-y-4 bg-gradient-to-r from-[#0F172A] via-[#111827] to-[#0A0E1A]">
+    <Card goldBorder className="space-y-4 bg-gradient-to-r from-[#0F172A] via-[#111827] to-[#09090B]">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-lg bg-[#C9A84C]/20 border border-[#C9A84C]/50 flex items-center justify-center text-lg">
-            🤖
+          <div className="w-8 h-8 rounded-lg bg-[#C9A84C]/20 border border-[#C9A84C]/50 flex items-center justify-center text-[#C9A84C]">
+            <Sparkles className="w-4 h-4" />
           </div>
           <div>
             <h3 className="text-sm font-serif font-bold text-gray-100">AI Engineering Copilot</h3>
-            <p className="text-[10px] text-[#C9A84C] font-mono">Real-Time System Intelligence</p>
+            <p className="text-[10px] text-[#C9A84C] font-mono">Real-Time Strategic Analysis</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-2">
-          <Badge variant="gold" className="text-[9px]">v4.0 AI Active</Badge>
+          <Badge variant="gold" className="text-[10px]">Copilot Active</Badge>
           <Button variant="ghost" size="sm" onClick={() => setExpanded(!expanded)}>
-            {expanded ? 'Collapse ▲' : 'Analyze ▼'}
+            {expanded ? (
+              <>
+                <span>Collapse</span>
+                <ChevronUp className="w-3.5 h-3.5 ml-1" />
+              </>
+            ) : (
+              <>
+                <span>Analyze</span>
+                <ChevronDown className="w-3.5 h-3.5 ml-1" />
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -41,7 +52,10 @@ export const AiCopilotWidget: React.FC = () => {
         <p className="text-xs font-semibold text-gray-200">{analysis.greeting}</p>
         <p className="text-xs text-gray-400 leading-relaxed">{analysis.overallAssessment}</p>
         <div className="pt-2 border-t border-gray-800 flex items-center justify-between text-[11px]">
-          <span className="text-[#C9A84C] font-medium">{analysis.focusPromptToday}</span>
+          <div className="flex items-center space-x-2 text-[#C9A84C]">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span className="font-medium">{analysis.focusPromptToday}</span>
+          </div>
         </div>
       </div>
 
@@ -70,7 +84,8 @@ export const AiCopilotWidget: React.FC = () => {
                     className="text-[10px] whitespace-nowrap"
                     onClick={() => window.location.assign(sug.actionUrl!)}
                   >
-                    Action →
+                    <span>Action</span>
+                    <ArrowRight className="w-3 h-3 ml-1" />
                   </Button>
                 )}
               </div>

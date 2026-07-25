@@ -1,9 +1,11 @@
 import React from 'react';
+import { cn } from './cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gold';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
+  className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -13,23 +15,27 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#09090B] disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98]';
 
   const variants = {
-    primary: 'bg-[#C9A84C] text-[#0A0E1A] hover:bg-[#D4B65B] font-semibold focus:ring-[#C9A84C]',
-    secondary: 'bg-gray-800 text-gray-100 hover:bg-gray-700 focus:ring-gray-600',
-    outline: 'border border-[#C9A84C]/50 text-[#C9A84C] hover:bg-[#C9A84C]/10 focus:ring-[#C9A84C]',
-    ghost: 'text-gray-400 hover:text-white hover:bg-gray-800/50',
+    primary: 'bg-[#C9A84C] text-gray-950 hover:bg-[#D4AF37] font-semibold focus:ring-[#C9A84C]/50 shadow-sm shadow-[#C9A84C]/20',
+    secondary: 'bg-gray-800 text-gray-100 hover:bg-gray-700 border border-gray-700/60 focus:ring-gray-600',
+    outline: 'border border-gray-700/80 bg-transparent text-gray-200 hover:bg-gray-800/60 hover:border-gray-600 focus:ring-gray-600',
+    ghost: 'bg-transparent text-gray-400 hover:text-gray-100 hover:bg-gray-800/40 focus:ring-gray-600',
+    gold: 'bg-gradient-to-r from-[#C9A84C] to-[#D4AF37] text-gray-950 font-bold hover:brightness-110 shadow-md shadow-[#C9A84C]/20',
   };
 
   const sizes = {
-    sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
+    sm: 'text-xs px-3 py-1.5 rounded-md space-x-1.5',
+    md: 'text-xs px-4 py-2 rounded-lg space-x-2',
+    lg: 'text-sm px-5 py-2.5 rounded-lg space-x-2.5',
   };
 
   return (
-    <button className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`} {...props}>
+    <button
+      className={cn(baseStyles, variants[variant], sizes[size], className)}
+      {...props}
+    >
       {children}
     </button>
   );
