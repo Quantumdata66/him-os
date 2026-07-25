@@ -13,6 +13,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { name: 'Dashboard', href: '/dashboard', icon: '⚡' },
+  { name: 'MLOps Command', href: '/mlops', icon: '📊', badge: 'v4.0' },
   { name: 'Workspace Studio', href: '/workspace', icon: '📓', badge: 'v3.0' },
   { name: 'Knowledge Graph', href: '/workspace/graph', icon: '🕸️' },
   { name: 'Achievements', href: '/achievements', icon: '🏆', badge: 'v2.0' },
@@ -45,7 +46,7 @@ export const Sidebar: React.FC = () => {
             </div>
             <div>
               <h1 className="font-serif text-lg font-bold text-gray-100 tracking-wide">HIM OS</h1>
-              <p className="text-[10px] text-[#C9A84C] font-medium uppercase tracking-widest">v3.0 • NGN</p>
+              <p className="text-[10px] text-[#C9A84C] font-medium uppercase tracking-widest">v4.0 • NGN</p>
             </div>
           </div>
           <p className="mt-3 text-[11px] text-gray-400 italic">"Prototype Today. Legacy Tomorrow."</p>
@@ -75,6 +76,8 @@ export const Sidebar: React.FC = () => {
                     className={`text-[9px] px-1.5 py-0.5 rounded font-semibold uppercase ${
                       item.badge === 'Flagship'
                         ? 'bg-[#C9A84C]/20 text-[#C9A84C] border border-[#C9A84C]/30'
+                        : item.badge === 'v4.0'
+                        ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                         : item.badge === 'v3.0'
                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                         : 'bg-purple-500/20 text-purple-400'
@@ -98,7 +101,7 @@ export const Sidebar: React.FC = () => {
             </div>
             <div>
               <p className="text-xs font-medium text-gray-200">Engineer Profile</p>
-              <p className="text-[10px] text-gray-500">Cloud Sync Ready (NGN)</p>
+              <p className="text-[10px] text-gray-500">MLOps Active (NGN)</p>
             </div>
           </div>
           <span className="w-2 h-2 rounded-full bg-emerald-500" title="System Active"></span>
