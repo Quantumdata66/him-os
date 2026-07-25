@@ -14,10 +14,10 @@ import {
   TrendingUp,
   CheckCircle2,
 } from 'lucide-react';
-import { SkillsService } from '@/domain/skills/service';
+import { SkillService } from '@/domain/skills/service';
 
 export default function SkillRadarPage() {
-  const skills = SkillsService.getSkills();
+  const skills = SkillService.getSkills();
 
   const skillCategories = [
     { name: 'Backend Engineering', level: 90, icon: Cpu, badge: 'High Demand' },
