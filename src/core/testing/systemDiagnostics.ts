@@ -1,5 +1,5 @@
 import { StorageAdapter } from '../storage/localStorageAdapter';
-import { eventBus } from '../events/eventBus';
+import { eventBus, HimEventType } from '../events/eventBus';
 import { FastApiClient } from '../api/fastapiClient';
 import { SupabaseClient } from '../database/supabaseClient';
 import { AnalyticsAggregator } from '../analytics/analyticsAggregator';
@@ -54,10 +54,11 @@ export class SystemDiagnosticsService {
     const start2 = performance.now();
     try {
       let eventReceived = false;
-      const unsubscribe = eventBus.subscribe('diag.test_event', () => {
+      const testEventType: HimEventType = 'habit.completed';
+      const unsubscribe = eventBus.subscribe(testEventType, () => {
         eventReceived = true;
       });
-      eventBus.emit('diag.test_event', {});
+      eventBus.emit(testEventType, { test: true });
       unsubscribe();
       results.push({
         id: 'test-events',
