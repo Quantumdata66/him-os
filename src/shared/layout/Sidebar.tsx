@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -26,8 +26,10 @@ import {
   Search,
   Presentation,
   Code2,
+  Wifi,
 } from 'lucide-react';
 import { ThemeSelector } from '../ui/ThemeSelector';
+import { RealtimeSyncEngine, RealtimeSyncStatus } from '@/core/database/realtimeSync';
 
 interface NavGroup {
   groupName: string;
@@ -101,6 +103,12 @@ const NAV_GROUPS: NavGroup[] = [
 export const Sidebar: React.FC = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<RealtimeSyncStatus>('offline_fallback');
+
+  useEffect(() => {
+    const unsubscribe = RealtimeSyncEngine.initializeRealtimeSync(setSyncStatus);
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -213,10 +221,13 @@ export const Sidebar: React.FC = () => {
               </div>
               <div>
                 <p className="text-xs font-medium text-gray-200">Engineer HQ</p>
-                <p className="text-[9px] text-gray-500 font-mono">OpenAPI Active</p>
+                <div className="flex items-center space-x-1 text-[9px] font-mono text-gray-400">
+                  <Wifi className="w-2.5 h-2.5 text-emerald-400" />
+                  <span>Realtime WebSocket</span>
+                </div>
               </div>
             </div>
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="System Online" />
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="System Online & Realtime Synced" />
           </div>
         </div>
       </aside>
