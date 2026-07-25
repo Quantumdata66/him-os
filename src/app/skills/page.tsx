@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
+import { Target, Award } from 'lucide-react';
 import { SkillService } from '@/domain/skills/service';
 import { Skill, SkillCategory } from '@/domain/skills/types';
 
@@ -13,7 +14,6 @@ export default function SkillsPage() {
   const [name, setName] = useState('');
   const [category, setCategory] = useState<SkillCategory>('backend');
   const [currentLevel, setCurrentLevel] = useState(3);
-  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
 
   useEffect(() => {
     loadSkills();
@@ -45,7 +45,7 @@ export default function SkillsPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none">
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
           <div className="flex items-center space-x-3 mb-1">
@@ -56,9 +56,15 @@ export default function SkillsPage() {
             First-class domain. Every skill proficiency rating is backed by verified project evidence.
           </p>
         </div>
-        <Button variant="primary" onClick={() => setShowAddModal(!showAddModal)}>
-          {showAddModal ? 'Cancel' : '+ Track New Skill'}
-        </Button>
+        <div className="flex items-center space-x-3">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/skills/radar')}>
+            <Target className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Skill Radar</span>
+          </Button>
+          <Button variant="primary" size="sm" onClick={() => setShowAddModal(!showAddModal)}>
+            {showAddModal ? 'Cancel' : '+ Track New Skill'}
+          </Button>
+        </div>
       </div>
 
       {/* Skill Form */}
