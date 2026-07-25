@@ -6,11 +6,14 @@ import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { WeeklySprintService } from '@/domain/execution/weekly/service';
 import { WeeklySprint } from '@/domain/execution/weekly/types';
+import { FastApiClient, WeeklyDigestResponse } from '@/core/api/fastapiClient';
 
 export default function WeeklySprintPage() {
   const [sprint, setSprint] = useState<WeeklySprint | null>(null);
   const [savedMsg, setSavedMsg] = useState('');
   const [newDeliverable, setNewDeliverable] = useState('');
+  const [digest, setDigest] = useState<WeeklyDigestResponse | null>(null);
+  const [loadingDigest, setLoadingDigest] = useState(false);
 
   useEffect(() => {
     setSprint(WeeklySprintService.getSprintByWeek());
@@ -22,6 +25,13 @@ export default function WeeklySprintPage() {
     WeeklySprintService.saveSprint(sprint);
     setSavedMsg('Sprint Saved Successfully! 🚀');
     setTimeout(() => setSavedMsg(''), 3000);
+  };
+
+  const handleGenerateDigest = async () => {
+    setLoadingDigest(true);
+    const res = await FastApiClient.generateWeeklyDigest();
+    setDigest(res);
+    setLoadingDigest(false);
   };
 
   const toggleDeliverable = (id: string) => {
@@ -55,11 +65,33 @@ export default function WeeklySprintPage() {
         </div>
         <div className="flex items-center space-x-3">
           {savedMsg && <span className="text-xs text-emerald-400">{savedMsg}</span>}
+          <Button variant="outline" onClick={handleGenerateDigest} disabled={loadingDigest}>
+            {loadingDigest ? 'Generating...' : '📥 Export Weekly Digest'}
+          </Button>
           <Button variant="primary" onClick={handleSave}>
             Save Sprint
           </Button>
         </div>
       </div>
+
+      {/* Generated Weekly Digest Report Drawer */}
+      {digest && (
+        <Card goldBorder className="space-y-4 animate-in fade-in duration-200">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <span className="text-lg">📊</span>
+              <h3 className="text-base font-serif font-semibold text-[#C9A84C]">FastAPI Generated Weekly Report Digest</h3>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setDigest(null)}>
+              ✕ Close
+            </Button>
+          </div>
+          <p className="text-xs text-emerald-400 italic">{digest.summary_sentence}</p>
+          <pre className="p-4 bg-gray-950 rounded-lg border border-gray-800 text-xs text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap max-h-96">
+            {digest.markdown_report}
+          </pre>
+        </Card>
+      )}
 
       {/* Sprint Goal Card */}
       <Card goldBorder className="space-y-4">

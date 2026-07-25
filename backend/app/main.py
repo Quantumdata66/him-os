@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.v1 import github, weather, resume_builder
+from app.api.v1 import github, weather, resume_builder, digest
 
 app = FastAPI(
     title="Project HIM OS Microservices API",
-    description="Backend microservices providing GitHub commit tracking, weather sync, and resume generation.",
+    description="Backend microservices providing GitHub commit tracking, weather sync, resume generation, and weekly digest generator.",
     version="2.0.0",
 )
 
@@ -21,6 +21,7 @@ app.add_middleware(
 app.include_router(github.router, prefix="/api/v1/github", tags=["GitHub Automation"])
 app.include_router(weather.router, prefix="/api/v1/weather", tags=["Weather Automation"])
 app.include_router(resume_builder.router, prefix="/api/v1/resume", tags=["Resume Auto-Builder"])
+app.include_router(digest.router, prefix="/api/v1/digest", tags=["Weekly Digest Generator"])
 
 @app.get("/")
 def read_root():
