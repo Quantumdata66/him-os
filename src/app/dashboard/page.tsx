@@ -7,6 +7,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { ScoreRing } from '@/shared/ui/ScoreRing';
 import { AiCopilotWidget } from '@/shared/ui/AiCopilotWidget';
 import { AutonomousSchedulerWidget } from '@/shared/ui/AutonomousSchedulerWidget';
+import { AgentMeshWidget } from '@/shared/ui/AgentMeshWidget';
 import {
   Target,
   Clock,
@@ -100,7 +101,7 @@ export default function DashboardPage() {
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-gray-100">
               Welcome Back, {dto.user.name}
             </h1>
-            <Badge variant="gold">v6.0 Autonomous OS</Badge>
+            <Badge variant="gold">v7.0 Agent Mesh</Badge>
           </div>
           <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Single-DTO Command Center</p>
         </div>
@@ -116,9 +117,10 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* AI Engineering Copilot & Autonomous Routine Scheduler */}
+      {/* AI Engineering Copilot, Autonomous Scheduler & Multi-Agent Mesh */}
       <AiCopilotWidget />
       <AutonomousSchedulerWidget />
+      <AgentMeshWidget />
 
       {/* Grid Section 1: Hero Metrics (Execution Score, Today's MITs, Deep Work Timer) */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -268,7 +270,7 @@ export default function DashboardPage() {
             <p className="text-xs text-gray-400 mt-0.5">Next.js 15, FastAPI, Supabase</p>
           </div>
           <div className="pt-2 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-[11px] text-emerald-400 font-medium">v5.0 Shipped</span>
+            <span className="text-[11px] text-emerald-400 font-medium">v6.0 Shipped</span>
             <Button variant="ghost" size="sm" className="p-0 text-gray-400 hover:text-gray-100" onClick={() => window.location.assign('/planning/projects')}>
               <ExternalLink className="w-3.5 h-3.5" />
             </Button>
