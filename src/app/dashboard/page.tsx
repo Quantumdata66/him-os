@@ -5,6 +5,7 @@ import { Card } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { ScoreRing } from '@/shared/ui/ScoreRing';
+import { AiCopilotWidget } from '@/shared/ui/AiCopilotWidget';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DailyPlanService } from '@/domain/execution/daily/service';
 import { HabitService } from '@/domain/execution/habits/service';
@@ -44,7 +45,7 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, [timerRunning, timerSeconds]);
 
-  if (!dto || !analytics) return <div className="text-gray-400 p-8 text-sm">Loading HIM OS Dashboard & Analytics...</div>;
+  if (!dto || !analytics) return <div className="text-gray-400 p-8 text-sm">Loading HIM OS Dashboard & AI Copilot...</div>;
 
   const handleMitToggle = (mitNum: 1 | 2 | 3) => {
     DailyPlanService.toggleMit(dto.dailyPlan.date, mitNum);
@@ -71,7 +72,7 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <h1 className="text-3xl font-serif font-bold text-gray-100">Welcome Back, {dto.user.name}</h1>
-            <Badge variant="gold">v2.0 7-Engine Analytics Active</Badge>
+            <Badge variant="gold">v4.0 AI Copilot Integrated</Badge>
           </div>
           <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Single DTO Aggregated View</p>
         </div>
@@ -84,6 +85,9 @@ export default function DashboardPage() {
           </Button>
         </div>
       </div>
+
+      {/* V4 AI Engineering Copilot Banner Widget */}
+      <AiCopilotWidget />
 
       {/* V2 7-Engine System Analytics Banner */}
       <Card goldBorder className="space-y-6">
@@ -189,8 +193,8 @@ export default function DashboardPage() {
 
           <div className="space-y-3 pt-2">
             {[
-              { num: 1 as const, text: dto.dailyPlan.mit1 || 'Configure Analytics Score Engines', done: dto.dailyPlan.mit1Done },
-              { num: 2 as const, text: dto.dailyPlan.mit2 || 'Integrate Score Ring Dashboard Widgets', done: dto.dailyPlan.mit2Done },
+              { num: 1 as const, text: dto.dailyPlan.mit1 || 'Build AI Copilot Analysis Engine', done: dto.dailyPlan.mit1Done },
+              { num: 2 as const, text: dto.dailyPlan.mit2 || 'Integrate AI Widget on Dashboard', done: dto.dailyPlan.mit2Done },
               { num: 3 as const, text: dto.dailyPlan.mit3 || 'German Anki Vocabulary & Speaking Practice', done: dto.dailyPlan.mit3Done },
             ].map((mit) => (
               <div
