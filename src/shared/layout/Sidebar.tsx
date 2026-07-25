@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { ThemeSelector } from '../ui/ThemeSelector';
 
 interface NavItem {
   name: string;
@@ -92,8 +93,10 @@ export const Sidebar: React.FC = () => {
         </nav>
       </div>
 
-      {/* Footer Profile */}
-      <div className="pt-4 border-t border-gray-800/60 px-3">
+      {/* Footer Profile & Theme Selector */}
+      <div className="pt-4 border-t border-gray-800/60 px-3 space-y-3">
+        <ThemeSelector />
+
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-xs font-bold text-gray-200">
@@ -101,7 +104,7 @@ export const Sidebar: React.FC = () => {
             </div>
             <div>
               <p className="text-xs font-medium text-gray-200">Engineer Profile</p>
-              <p className="text-[10px] text-gray-500">MLOps Active (NGN)</p>
+              <p className="text-[10px] text-gray-500">AI & MLOps (NGN)</p>
             </div>
           </div>
           <span className="w-2 h-2 rounded-full bg-emerald-500" title="System Active"></span>
