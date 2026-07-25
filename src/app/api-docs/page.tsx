@@ -13,7 +13,10 @@ import {
   Check,
   Server,
   ArrowRight,
+  Activity,
+  ShieldCheck,
 } from 'lucide-react';
+import { SystemDiagnosticsService, SystemDiagnosticReport } from '@/core/testing/systemDiagnostics';
 
 interface ApiEndpoint {
   id: string;
@@ -111,6 +114,10 @@ export default function ApiDocsPage() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // System Diagnostics State
+  const [diagReport, setDiagReport] = useState<SystemDiagnosticReport | null>(null);
+  const [runningDiag, setRunningDiag] = useState(false);
+
   const handleTestEndpoint = async (path: string) => {
     setLoading(true);
     try {
@@ -122,6 +129,13 @@ export default function ApiDocsPage() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRunDiagnostics = async () => {
+    setRunningDiag(true);
+    const report = await SystemDiagnosticsService.runDiagnostics();
+    setDiagReport(report);
+    setRunningDiag(false);
   };
 
   const handleCopy = () => {
@@ -153,6 +167,52 @@ export default function ApiDocsPage() {
           </Button>
         </div>
       </div>
+
+      {/* System Diagnostics Suite Card */}
+      <Card goldBorder className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <Activity className="w-4 h-4" />
+            </div>
+            <div>
+              <h3 className="text-base font-serif font-bold text-gray-100">In-Browser System Diagnostics Suite</h3>
+              <p className="text-xs text-gray-400">Automated self-tests for Storage, Event Bus, FastAPI, Supabase, and Analytics.</p>
+            </div>
+          </div>
+
+          <Button variant="primary" size="sm" onClick={handleRunDiagnostics} disabled={runningDiag}>
+            <ShieldCheck className="w-4 h-4 mr-1.5" />
+            <span>{runningDiag ? 'Running Tests...' : 'Run Self-Diagnostics'}</span>
+          </Button>
+        </div>
+
+        {diagReport && (
+          <div className="space-y-3 pt-3 border-t border-gray-800/80 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between text-xs font-mono">
+              <span className="text-gray-300">
+                Health Status: <strong className="text-emerald-400 uppercase">{diagReport.overallHealth}</strong> ({diagReport.testsPassed}/{diagReport.totalTests} Passed)
+              </span>
+              <span className="text-gray-500">{diagReport.timestamp}</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
+              {diagReport.results.map((res) => (
+                <div key={res.id} className="p-3 bg-gray-900/80 rounded-lg border border-gray-800 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <span className="font-semibold text-gray-200 truncate">{res.name}</span>
+                    <Badge variant={res.passed ? 'green' : 'red'} className="text-[9px]">
+                      {res.passed ? 'PASS' : 'FAIL'}
+                    </Badge>
+                  </div>
+                  <p className="text-[11px] text-gray-400 leading-tight">{res.message}</p>
+                  <span className="text-[9px] font-mono text-gray-500 block">{res.durationMs} ms</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </Card>
 
       {/* Main API Docs Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
