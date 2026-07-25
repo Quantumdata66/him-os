@@ -24,6 +24,7 @@ import {
   X,
   Sparkles,
   Search,
+  Presentation,
 } from 'lucide-react';
 import { ThemeSelector } from '../ui/ThemeSelector';
 
@@ -42,6 +43,7 @@ const NAV_GROUPS: NavGroup[] = [
     groupName: 'Core',
     items: [
       { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+      { name: 'Employer Showcase', href: '/demo', icon: Presentation, badge: 'v5.0' },
     ],
   },
   {
@@ -181,6 +183,8 @@ export const Sidebar: React.FC = () => {
                             className={`text-[9px] px-1.5 py-0.5 rounded font-semibold uppercase ${
                               item.badge === 'Flagship'
                                 ? 'bg-[#C9A84C]/20 text-[#C9A84C] border border-[#C9A84C]/30'
+                                : item.badge === 'v5.0'
+                                ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
                                 : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
                             }`}
                           >
@@ -207,7 +211,7 @@ export const Sidebar: React.FC = () => {
               </div>
               <div>
                 <p className="text-xs font-medium text-gray-200">Engineer HQ</p>
-                <p className="text-[9px] text-gray-500 font-mono">Cloud Synced</p>
+                <p className="text-[9px] text-gray-500 font-mono">v5.0 Active</p>
               </div>
             </div>
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="System Online" />
