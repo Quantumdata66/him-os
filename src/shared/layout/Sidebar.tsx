@@ -25,6 +25,7 @@ import {
   Sparkles,
   Search,
   Presentation,
+  Code2,
 } from 'lucide-react';
 import { ThemeSelector } from '../ui/ThemeSelector';
 
@@ -69,6 +70,7 @@ const NAV_GROUPS: NavGroup[] = [
       { name: 'Career Engine', href: '/career', icon: Briefcase, badge: 'Flagship' },
       { name: 'Skills Matrix', href: '/skills', icon: Cpu },
       { name: 'MLOps Command', href: '/mlops', icon: Sparkles },
+      { name: 'OpenAPI Docs', href: '/api-docs', icon: Code2, badge: 'REST' },
     ],
   },
   {
@@ -185,7 +187,7 @@ export const Sidebar: React.FC = () => {
                                 ? 'bg-[#C9A84C]/20 text-[#C9A84C] border border-[#C9A84C]/30'
                                 : item.badge === 'v5.0'
                                 ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
-                                : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                                : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                             }`}
                           >
                             {item.badge}
@@ -211,7 +213,7 @@ export const Sidebar: React.FC = () => {
               </div>
               <div>
                 <p className="text-xs font-medium text-gray-200">Engineer HQ</p>
-                <p className="text-[9px] text-gray-500 font-mono">v5.0 Active</p>
+                <p className="text-[9px] text-gray-500 font-mono">OpenAPI Active</p>
               </div>
             </div>
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" title="System Online" />
