@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
+import { RefreshCw } from 'lucide-react';
 import { WeeklySprintService } from '@/domain/execution/weekly/service';
 import { WeeklySprint } from '@/domain/execution/weekly/types';
 import { FastApiClient, WeeklyDigestResponse } from '@/core/api/fastapiClient';
@@ -54,7 +55,7 @@ export default function WeeklySprintPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto pb-12">
+    <div className="space-y-8 max-w-5xl mx-auto pb-12 select-none">
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
           <div className="flex items-center space-x-3 mb-1">
@@ -65,10 +66,14 @@ export default function WeeklySprintPage() {
         </div>
         <div className="flex items-center space-x-3">
           {savedMsg && <span className="text-xs text-emerald-400">{savedMsg}</span>}
-          <Button variant="outline" onClick={handleGenerateDigest} disabled={loadingDigest}>
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/execution/weekly/rollover')}>
+            <RefreshCw className="w-3.5 h-3.5 mr-1" />
+            <span>Sprint Rollover</span>
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleGenerateDigest} disabled={loadingDigest}>
             {loadingDigest ? 'Generating...' : '📥 Export Weekly Digest'}
           </Button>
-          <Button variant="primary" onClick={handleSave}>
+          <Button variant="primary" size="sm" onClick={handleSave}>
             Save Sprint
           </Button>
         </div>
