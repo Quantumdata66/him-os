@@ -6,13 +6,23 @@ import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
 import { Printer, Download, ArrowRight, Briefcase, Award, CheckCircle2, Code2 } from 'lucide-react';
 import { CareerService } from '@/domain/career/service';
+import { CareerPipeline } from '@/domain/career/pipelines/careerPipeline';
 import { SkillService } from '@/domain/skills/service';
-import { ProjectService } from '@/domain/projects/service';
+import { ProjectService } from '@/domain/planning/projects/service';
+import { DashboardService } from '@/domain/dashboard/service';
 
 export default function ResumeExporterPage() {
-  const profile = CareerService.getProfile();
+  const dto = DashboardService.getDashboardDTO();
+  const readiness = CareerPipeline.computeMarketReadiness();
   const skills = SkillService.getSkills();
   const projects = ProjectService.getProjects();
+
+  const profile = {
+    name: dto.user.name || 'Executive Engineer',
+    title: 'Senior Software & Systems Architect (Backend / MLOps)',
+    summary: dto.user.motto || 'High-performance system architecture, FastAPI microservices, and AI Copilot engineering.',
+    marketReadinessScore: readiness.overallScorePct,
+  };
 
   const handlePrintPdf = () => {
     window.print();
