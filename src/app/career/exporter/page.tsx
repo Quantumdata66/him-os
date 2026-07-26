@@ -42,7 +42,7 @@ ${skills.map((s) => `- **${s.name}**: Level ${s.currentLevel}/5 (${s.category.to
 ---
 
 ## 🚀 Key Engineering Projects
-${projects.map((p) => `### ${p.name}\n- **Description:** ${p.description}\n- **Tech Stack:** ${p.techStack.join(', ')}\n- **Status:** ${p.status.toUpperCase()}`).join('\n\n')}
+${projects.map((p) => `### ${p.name}\n- **Objective:** ${p.objective}\n- **Tech Stack:** ${p.techStack.join(', ')}\n- **Status:** ${p.status.toUpperCase()}`).join('\n\n')}
 
 ---
 
@@ -133,7 +133,7 @@ ${projects.map((p) => `### ${p.name}\n- **Description:** ${p.description}\n- **T
                     {p.status}
                   </Badge>
                 </div>
-                <p className="text-xs text-gray-400 leading-relaxed">{p.description}</p>
+                <p className="text-xs text-gray-400 leading-relaxed">{p.objective}</p>
                 <div className="flex flex-wrap gap-1.5 pt-1">
                   {p.techStack.map((tech, tIdx) => (
                     <span key={tIdx} className="text-[10px] font-mono px-2 py-0.5 rounded bg-gray-800 text-gray-300 border border-gray-700">
