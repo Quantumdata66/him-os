@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
+import { Printer } from 'lucide-react';
 import { CareerService } from '@/domain/career/service';
 import { CareerPipeline, MarketReadinessReport } from '@/domain/career/pipelines/careerPipeline';
 import { JobApplication, ApplicationStatus } from '@/domain/career/types';
@@ -58,7 +59,7 @@ export default function CareerEnginePage() {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none">
       {/* Header */}
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
@@ -70,11 +71,15 @@ export default function CareerEnginePage() {
             Pipeline: Daily Work → Projects → Skills → Portfolio → CV → Market Readiness
           </p>
         </div>
-        <div className="flex space-x-3">
-          <Button variant="outline" onClick={handleGenerateCv}>
+        <div className="flex items-center space-x-3">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/career/exporter')}>
+            <Printer className="w-3.5 h-3.5 mr-1" />
+            <span>PDF Exporter</span>
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleGenerateCv}>
             ⚡ Auto-Generate CV
           </Button>
-          <Button variant="primary" onClick={() => setShowAddForm(!showAddForm)}>
+          <Button variant="primary" size="sm" onClick={() => setShowAddForm(!showAddForm)}>
             {showAddForm ? 'Cancel' : '+ Log Application'}
           </Button>
         </div>
