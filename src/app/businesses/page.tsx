@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
+import { Building2 } from 'lucide-react';
 import { BusinessService } from '@/domain/business/service';
 import { Business } from '@/domain/business/types';
 
@@ -38,7 +39,7 @@ export default function BusinessesPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none">
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
           <div className="flex items-center space-x-3 mb-1">
@@ -49,9 +50,15 @@ export default function BusinessesPage() {
             Generic Multi-Business Manager (Quantum Jersey, SaaS, Consulting, Investment).
           </p>
         </div>
-        <Button variant="primary" onClick={() => setShowAdd(!showAdd)}>
-          {showAdd ? 'Cancel' : '+ Register Business'}
-        </Button>
+        <div className="flex items-center space-x-3">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/businesses/ventures')}>
+            <Building2 className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Venture Hub & P&L</span>
+          </Button>
+          <Button variant="primary" size="sm" onClick={() => setShowAdd(!showAdd)}>
+            {showAdd ? 'Cancel' : '+ Register Business'}
+          </Button>
+        </div>
       </div>
 
       {/* Register Business Form */}
