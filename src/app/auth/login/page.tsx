@@ -7,6 +7,7 @@ import { Badge } from '@/shared/ui/Badge';
 import { useRouter } from 'next/navigation';
 import { Download, FileText, Upload, HardDrive, CheckCircle2 } from 'lucide-react';
 import { BackupEngine } from '@/core/backup/backupEngine';
+import { RbacControlWidget } from '@/shared/ui/RbacControlWidget';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -93,6 +94,11 @@ export default function LoginPage() {
           </a>
         </div>
       </Card>
+
+      {/* Enterprise RBAC Role Switcher */}
+      <div className="w-full max-w-md">
+        <RbacControlWidget />
+      </div>
 
       {/* System Data Export & Restore Panel */}
       <Card className="w-full max-w-md space-y-4">
