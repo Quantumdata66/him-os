@@ -1,5 +1,7 @@
-const CACHE_NAME = 'him-os-v7-cache';
-const urlsToCache = ['/', '/dashboard', '/career', '/finance', '/workspace'];
+importScripts('/sw-push.js');
+
+const CACHE_NAME = 'him-os-v8-cache';
+const urlsToCache = ['/', '/dashboard', '/career', '/finance', '/businesses/ventures', '/workspace'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
