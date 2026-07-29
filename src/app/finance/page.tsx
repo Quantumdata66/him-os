@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { TrendingUp, Sliders, FileText } from 'lucide-react';
+import { TrendingUp, Sliders, FileText, Globe } from 'lucide-react';
 import { FinanceService } from '@/domain/finance/service';
 import { AssetAccount, AccountType } from '@/domain/finance/types';
 
@@ -63,8 +63,12 @@ export default function FinancePage() {
           </p>
         </div>
         <div className="flex items-center space-x-3">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/global')}>
+            <Globe className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Global Currency Map</span>
+          </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/invoices')}>
-            <FileText className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <FileText className="w-3.5 h-3.5 mr-1" />
             <span>Invoices & Billing</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/simulator')}>
