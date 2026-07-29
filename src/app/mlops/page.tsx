@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
+import { Activity } from 'lucide-react';
 import { MLOpsService } from '@/domain/mlops/service';
 import { MLOpsTelemetryDTO } from '@/domain/mlops/types';
 
@@ -17,7 +18,7 @@ export default function MLOpsPage() {
   if (!telemetry) return <div className="text-gray-400 p-8">Loading MLOps Telemetry...</div>;
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none">
       {/* Header */}
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
@@ -29,9 +30,15 @@ export default function MLOpsPage() {
             Real-time telemetry monitoring model latency, accuracy, dataset versioning, and training pipelines.
           </p>
         </div>
-        <Button variant="primary" onClick={() => alert('Training pipeline trigger sent to FastAPI worker! 🚀')}>
-          + Trigger Retraining Run
-        </Button>
+        <div className="flex items-center space-x-3">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/mlops/health')}>
+            <Activity className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Server Health Telemetry</span>
+          </Button>
+          <Button variant="primary" size="sm" onClick={() => alert('Training pipeline trigger sent to FastAPI worker! 🚀')}>
+            + Trigger Retraining Run
+          </Button>
+        </div>
       </div>
 
       {/* Metrics Banner */}
