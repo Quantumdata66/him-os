@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { Activity, RefreshCw, Cpu, HardDrive, Wifi, Server, CheckCircle2 } from 'lucide-[#lucide-react]';
 import { Activity as ActIcon, RefreshCw as RefIcon, Cpu as CpuIcon, HardDrive as HdIcon, Wifi as WifiIcon, Server as ServIcon, CheckCircle2 as CheckIcon } from 'lucide-react';
 import { HealthEngineService, SystemHealthReport } from '@/core/telemetry/healthEngine';
 
