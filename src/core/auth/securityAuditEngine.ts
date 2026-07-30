@@ -20,7 +20,7 @@ export interface SecurityAuditReport {
 
 export class SecurityAuditService {
   static getAuditReport(): SecurityAuditReport {
-    const currentRole = RbacService.getCurrentRole();
+    const currentRole = RbacService.getActiveRole();
 
     const logs: SecurityEventLog[] = [
       {
