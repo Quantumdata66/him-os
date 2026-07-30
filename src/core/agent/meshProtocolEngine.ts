@@ -1,4 +1,13 @@
-import { AgentMeshService, AgentInstance } from './agentMesh';
+import { AgentMeshService } from './agentMesh';
+
+export interface AgentSwarmMember {
+  id: string;
+  name: string;
+  role: string;
+  status: 'active' | 'evaluating' | 'idle';
+  lastAction: string;
+  latencyMs: number;
+}
 
 export interface SwarmMessage {
   id: string;
@@ -13,13 +22,46 @@ export interface SwarmProtocolReport {
   activeAgentsCount: number;
   totalMessagesProcessed: number;
   meshHealthScorePct: number;
-  agents: AgentInstance[];
+  agents: AgentSwarmMember[];
   recentMessages: SwarmMessage[];
 }
 
 export class MeshProtocolService {
   static getSwarmReport(): SwarmProtocolReport {
-    const agents = AgentMeshService.getAgents();
+    const agents: AgentSwarmMember[] = [
+      {
+        id: 'ag-1',
+        name: 'Executive Routine Scheduler',
+        role: 'Autonomous Daily Planning & Streak Agent',
+        status: 'active',
+        lastAction: 'Scheduled 3 MITs for today',
+        latencyMs: 8,
+      },
+      {
+        id: 'ag-2',
+        name: 'Career Copilot Agent',
+        role: 'Portfolio & Skill Matrix Evaluator',
+        status: 'active',
+        lastAction: 'Updated Market Readiness Score',
+        latencyMs: 14,
+      },
+      {
+        id: 'ag-3',
+        name: 'Financial Runway Agent',
+        role: 'Monte Carlo & Cash Reserve Simulator',
+        status: 'active',
+        lastAction: 'Calculated 6-month runway safety buffer',
+        latencyMs: 11,
+      },
+      {
+        id: 'ag-4',
+        name: 'MLOps Telemetry Engine',
+        role: 'Model Inference & System Diagnostic Agent',
+        status: 'active',
+        lastAction: 'Monitored Sub-15ms inference latency',
+        latencyMs: 12,
+      },
+    ];
 
     const recentMessages: SwarmMessage[] = [
       {
@@ -31,7 +73,7 @@ export class MeshProtocolService {
         status: 'DELIVERED',
       },
       {
-        id: 'msg-[#msg-2]',
+        id: 'msg-2',
         sender: 'Career Copilot Agent',
         recipient: 'Skill Matrix Radar',
         message: 'New project completed: Updated Market Readiness Score to 88%.',
