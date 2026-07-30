@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { Printer } from 'lucide-react';
+import { MetricCard } from '@/shared/ui/MetricCard';
+import { Printer, Briefcase, Award, TrendingUp, Sparkles } from 'lucide-react';
 import { CareerService } from '@/domain/career/service';
 import { CareerPipeline, MarketReadinessReport } from '@/domain/career/pipelines/careerPipeline';
 import { JobApplication, ApplicationStatus } from '@/domain/career/types';
@@ -64,8 +65,8 @@ export default function CareerEnginePage() {
       <div className="flex items-center justify-between pb-6 border-b border-gray-800">
         <div>
           <div className="flex items-center space-x-3 mb-1">
-            <h1 className="text-3xl font-serif font-bold text-gray-100">Career Engine</h1>
-            <Badge variant="gold">Flagship Module ⭐ (FastAPI Powered)</Badge>
+            <h1 className="text-3xl font-serif font-bold text-gray-100">Career Engine & Market Readiness</h1>
+            <Badge variant="gold">Flagship Module ⭐</Badge>
           </div>
           <p className="text-xs text-gray-400">
             Pipeline: Daily Work → Projects → Skills → Portfolio → CV → Market Readiness
@@ -73,11 +74,12 @@ export default function CareerEnginePage() {
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/career/exporter')}>
-            <Printer className="w-3.5 h-3.5 mr-1" />
-            <span>PDF Exporter</span>
+            <Printer className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>PDF Resume Exporter</span>
           </Button>
           <Button variant="outline" size="sm" onClick={handleGenerateCv}>
-            ⚡ Auto-Generate CV
+            <Sparkles className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Auto-Generate CV</span>
           </Button>
           <Button variant="primary" size="sm" onClick={() => setShowAddForm(!showAddForm)}>
             {showAddForm ? 'Cancel' : '+ Log Application'}
@@ -89,52 +91,61 @@ export default function CareerEnginePage() {
       {generatedCv && (
         <Card goldBorder className="space-y-4">
           <div className="flex justify-between items-center">
-            <h3 className="text-base font-serif font-semibold text-[#C9A84C]">Generated Markdown CV</h3>
+            <h3 className="text-base font-serif font-semibold text-[#C9A84C]">Generated Executive CV</h3>
             <Button variant="ghost" size="sm" onClick={() => setGeneratedCv(null)}>
               ✕ Close
             </Button>
           </div>
-          <pre className="p-4 bg-gray-900 rounded border border-gray-800 text-xs text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap max-h-96">
+          <pre className="p-4 bg-gray-900/80 rounded-xl border border-gray-800 text-xs text-gray-300 font-mono overflow-x-auto whitespace-pre-wrap max-h-96">
             {generatedCv}
           </pre>
         </Card>
       )}
 
-      {/* Market Readiness Banner */}
+      {/* Market Readiness KPI Cards */}
       {report && (
-        <Card goldBorder className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-serif font-bold text-[#C9A84C]">Backend & MLOps Market Readiness</h2>
-              <p className="text-xs text-gray-400 mt-1">
-                Computed from verified skill matrices, shipped projects, and portfolio deployments.
-              </p>
-            </div>
-            <div className="text-right">
-              <span className="text-4xl font-mono font-bold text-emerald-400">{report.overallScorePct}%</span>
-              <p className="text-[10px] text-gray-500 uppercase tracking-wider">Overall Score</p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-4 border-t border-gray-800 text-center font-mono">
-            <div className="bg-gray-900/60 p-2.5 rounded border border-gray-800">
-              <p className="text-xs font-semibold text-gray-400">Skill Coverage</p>
-              <p className="text-lg font-bold text-[#C9A84C] mt-1">{report.skillCoveragePct}%</p>
-            </div>
-            <div className="bg-gray-900/60 p-2.5 rounded border border-gray-800">
-              <p className="text-xs font-semibold text-gray-400">Project Score</p>
-              <p className="text-lg font-bold text-[#C9A84C] mt-1">{report.projectScorePct}%</p>
-            </div>
-            <div className="bg-gray-900/60 p-2.5 rounded border border-gray-800">
-              <p className="text-xs font-semibold text-gray-400">Portfolio Score</p>
-              <p className="text-lg font-bold text-emerald-400 mt-1">{report.portfolioScorePct}%</p>
-            </div>
-            <div className="bg-gray-900/60 p-2.5 rounded border border-gray-800">
-              <p className="text-xs font-semibold text-gray-400">Interview Momentum</p>
-              <p className="text-lg font-bold text-blue-400 mt-1">{report.interviewMomentumPct}%</p>
-            </div>
-          </div>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <MetricCard
+            label="Overall Readiness"
+            value={`${report.overallScorePct}%`}
+            badgeText="Senior Level"
+            badgeVariant="gold"
+            icon={Award}
+            trend="up"
+            trendValue="Top 5%"
+            subtext="Pipeline readiness score calculated from verified code artifacts."
+          />
+          <MetricCard
+            label="Skill Coverage"
+            value={`${report.skillCoveragePct}%`}
+            badgeText="Backend / MLOps"
+            badgeVariant="blue"
+            icon={Briefcase}
+            trend="up"
+            trendValue="Verified"
+            subtext="Core competencies backed by production code implementations."
+          />
+          <MetricCard
+            label="Project Rating"
+            value={`${report.projectScorePct}%`}
+            badgeText="15 Modules"
+            badgeVariant="purple"
+            icon={TrendingUp}
+            trend="up"
+            trendValue="Shipped"
+            subtext="Computed from production-shipped software repositories."
+          />
+          <MetricCard
+            label="Interview Velocity"
+            value={`${report.interviewMomentumPct}%`}
+            badgeText="Pipeline"
+            badgeVariant="green"
+            icon={Sparkles}
+            trend="up"
+            trendValue="High"
+            subtext="Active job application response & interview momentum."
+          />
+        </div>
       )}
 
       {/* New Application Form */}
@@ -152,7 +163,7 @@ export default function CareerEnginePage() {
             />
             <input
               type="text"
-              placeholder="Role Title (e.g. Backend Engineer)"
+              placeholder="Role Title (e.g. Senior Backend Engineer)"
               value={role}
               onChange={(e) => setRole(e.target.value)}
               className="bg-gray-900 border border-gray-800 rounded-lg px-3 py-2 text-xs text-gray-100 focus:outline-none"
@@ -174,16 +185,16 @@ export default function CareerEnginePage() {
 
       {/* Job Applications Board */}
       <Card className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-lg font-serif font-semibold text-gray-100">Job Applications Kanban & Pipeline</h3>
-          <Badge variant="gold">{applications.length} Active</Badge>
+        <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+          <h3 className="text-lg font-serif font-semibold text-gray-100">Job Applications Pipeline</h3>
+          <Badge variant="gold">{applications.length} Applications Tracked</Badge>
         </div>
 
         <div className="space-y-3">
           {applications.map((app) => (
             <div
               key={app.id}
-              className="p-4 bg-gray-900/60 rounded-lg border border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
+              className="p-4 bg-gray-900/60 rounded-xl border border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-4"
             >
               <div>
                 <h4 className="text-sm font-semibold text-gray-100">{app.role}</h4>
@@ -199,7 +210,7 @@ export default function CareerEnginePage() {
                 <select
                   value={app.status}
                   onChange={(e: any) => handleStatusChange(app.id, e.target.value)}
-                  className="bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-xs text-gray-200 focus:outline-none"
+                  className="bg-gray-900 border border-gray-800 rounded-lg px-2.5 py-1 text-xs text-gray-200 focus:outline-none"
                 >
                   <option value="researching">Researching</option>
                   <option value="applied">Applied</option>
