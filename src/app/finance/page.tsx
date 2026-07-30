@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { TrendingUp, Sliders, FileText, Globe, Scale, ShieldCheck } from 'lucide-react';
+import { MetricCard } from '@/shared/ui/MetricCard';
+import { TrendingUp, Sliders, FileText, Globe, Scale, ShieldCheck, Wallet, Landmark } from 'lucide-react';
 import { FinanceService } from '@/domain/finance/service';
 import { AssetAccount, AccountType } from '@/domain/finance/types';
 
@@ -68,11 +69,11 @@ export default function FinancePage() {
             <span>Currency Hedging</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/tax')}>
-            <Scale className="w-3.5 h-3.5 mr-1" />
+            <Scale className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
             <span>Tax Auditor</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/global')}>
-            <Globe className="w-3.5 h-3.5 mr-1" />
+            <Globe className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
             <span>Global Currency Map</span>
           </Button>
           <Button variant="outline" size="sm" onClick={() => window.location.assign('/finance/invoices')}>
@@ -89,22 +90,49 @@ export default function FinancePage() {
         </div>
       </div>
 
-      {/* Net Worth Summary Banner */}
-      <Card goldBorder className="p-6">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <p className="text-xs text-gray-400 uppercase font-mono tracking-wider">Total Net Worth</p>
-            <h2 className="text-4xl font-bold text-gray-100 font-mono mt-1">
-              {FinanceService.formatCurrencyNGN(netWorth)}
-            </h2>
-            <p className="text-xs text-emerald-400 mt-1">↑ Calculated from {accounts.length} Asset Accounts</p>
-          </div>
-          <div className="flex space-x-3">
-            <Badge variant="green" className="text-xs py-1 px-3">Emergency Fund: 6 Months</Badge>
-            <Badge variant="gold" className="text-xs py-1 px-3">Currency: NGN (₦)</Badge>
-          </div>
-        </div>
-      </Card>
+      {/* KPI Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <MetricCard
+          label="Total Net Worth"
+          value={FinanceService.formatCurrencyNGN(netWorth)}
+          badgeText="Live Aggregated"
+          badgeVariant="gold"
+          icon={Wallet}
+          trend="up"
+          trendValue="+12.4%"
+          subtext={`Calculated dynamically across ${accounts.length} asset accounts.`}
+        />
+        <MetricCard
+          label="Emergency Reserve"
+          value="6 Months"
+          badgeText="Capital Buffer"
+          badgeVariant="green"
+          icon={Landmark}
+          trend="up"
+          trendValue="Protected"
+          subtext="Liquid runway reserve allocated in yield savings."
+        />
+        <MetricCard
+          label="Active Accounts"
+          value={accounts.length}
+          badgeText="Portfolio"
+          badgeVariant="blue"
+          icon={TrendingUp}
+          trend="neutral"
+          trendValue="Balanced"
+          subtext="Stocks, savings, crypto, cash, and real estate."
+        />
+        <MetricCard
+          label="Base Currency"
+          value="NGN (₦)"
+          badgeText="v9.0 Hedged"
+          badgeVariant="purple"
+          icon={Globe}
+          trend="up"
+          trendValue="USD/EUR Hedged"
+          subtext="Multi-currency conversion engine active."
+        />
+      </div>
 
       {/* New Account Form */}
       {showAdd && (
