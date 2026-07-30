@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from './Card';
 import { Badge } from './Badge';
 import { Button } from './Button';
-import { Network, Briefcase, Wallet, Target, Sparkles, RefreshCw } from 'lucide-react';
+import { Network, Briefcase, Wallet, Target, Sparkles, RefreshCw, ArrowUpRight } from 'lucide-react';
 import { AgentMeshService, AgentMeshReport } from '@/core/agent/agentMesh';
 
 export const AgentMeshWidget: React.FC = () => {
@@ -39,6 +39,10 @@ export const AgentMeshWidget: React.FC = () => {
         </div>
 
         <div className="flex items-center space-x-2">
+          <Button variant="outline" size="sm" onClick={() => window.location.assign('/dashboard/mesh')}>
+            <span>Swarm Telemetry</span>
+            <ArrowUpRight className="w-3 h-3 ml-1 text-purple-400" />
+          </Button>
           <Badge variant="purple" className="text-[10px]">
             {report.activeAgentsCount} Agents Mesh Synced ✓
           </Badge>
