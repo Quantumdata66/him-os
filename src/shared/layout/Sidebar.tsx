@@ -27,6 +27,12 @@ import {
   Presentation,
   Code2,
   Wifi,
+  Printer,
+  Sliders,
+  Globe,
+  RefreshCw,
+  Activity,
+  Award,
 } from 'lucide-react';
 import { ThemeSelector } from '../ui/ThemeSelector';
 import { RealtimeSyncEngine, RealtimeSyncStatus } from '@/core/database/realtimeSync';
@@ -43,59 +49,60 @@ interface NavGroup {
 
 const NAV_GROUPS: NavGroup[] = [
   {
-    groupName: 'Core',
+    groupName: 'Executive Command',
     items: [
       { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
       { name: 'Employer Showcase', href: '/demo', icon: Presentation, badge: 'v5.0' },
     ],
   },
   {
-    groupName: 'Execution',
+    groupName: 'Career & Skills',
+    items: [
+      { name: 'Career Engine', href: '/career', icon: Briefcase, badge: 'Flagship' },
+      { name: 'Executive Resume PDF', href: '/career/exporter', icon: Printer, badge: 'v7.0' },
+      { name: 'Skills Matrix', href: '/skills', icon: Cpu },
+      { name: 'Competency Radar', href: '/skills/radar', icon: Award, badge: 'v6.0' },
+    ],
+  },
+  {
+    groupName: 'Finance & Ventures',
+    items: [
+      { name: 'Financial OS', href: '/finance', icon: Wallet },
+      { name: 'Venture Hub (P&L)', href: '/businesses/ventures', icon: Building2, badge: 'v8.0' },
+      { name: 'Invoices & Billing', href: '/finance/invoices', icon: FileText, badge: 'v8.0' },
+      { name: 'Runway Simulator', href: '/finance/simulator', icon: Sliders, badge: 'v6.0' },
+      { name: 'Global Currency Map', href: '/finance/global', icon: Globe, badge: 'v9.0' },
+      { name: 'Tax Auditor', href: '/finance/tax', icon: Scale, badge: 'v9.0' },
+    ],
+  },
+  {
+    groupName: 'Execution & Sprints',
     items: [
       { name: 'Daily Planner', href: '/execution/daily', icon: Target },
       { name: 'Weekly Sprint', href: '/execution/weekly', icon: Calendar },
+      { name: 'Sprint Rollover', href: '/execution/weekly/rollover', icon: RefreshCw, badge: 'v7.0' },
       { name: 'Monthly Review', href: '/execution/monthly', icon: Calendar },
       { name: 'Habits', href: '/execution/habits', icon: Flame },
       { name: 'Achievements', href: '/achievements', icon: Trophy, badge: 'XP' },
     ],
   },
   {
-    groupName: 'Planning & Projects',
-    items: [
-      { name: 'Goals', href: '/planning/goals', icon: Target },
-      { name: 'Projects', href: '/planning/projects', icon: FolderGit2 },
-    ],
-  },
-  {
-    groupName: 'Engineering & Career',
-    items: [
-      { name: 'Career Engine', href: '/career', icon: Briefcase, badge: 'Flagship' },
-      { name: 'Skills Matrix', href: '/skills', icon: Cpu },
-      { name: 'MLOps Command', href: '/mlops', icon: Sparkles },
-      { name: 'OpenAPI Docs', href: '/api-docs', icon: Code2, badge: 'REST' },
-    ],
-  },
-  {
-    groupName: 'Growth & Finance',
-    items: [
-      { name: 'Learning', href: '/learning', icon: GraduationCap },
-      { name: 'Financial OS', href: '/finance', icon: Wallet },
-      { name: 'Businesses', href: '/businesses', icon: Building2 },
-    ],
-  },
-  {
-    groupName: 'Knowledge',
+    groupName: 'Knowledge & Workspace',
     items: [
       { name: 'Workspace Studio', href: '/workspace', icon: BookOpen },
       { name: 'Knowledge Graph', href: '/workspace/graph', icon: Network },
       { name: 'Decisions', href: '/decisions', icon: Scale },
       { name: 'Notes', href: '/notes', icon: FileText },
+      { name: 'Learning', href: '/learning', icon: GraduationCap },
     ],
   },
   {
-    groupName: 'System',
+    groupName: 'Engineering & MLOps',
     items: [
-      { name: 'Settings & Auth', href: '/auth/login', icon: Settings },
+      { name: 'MLOps Command', href: '/mlops', icon: Sparkles },
+      { name: 'Server Telemetry', href: '/mlops/health', icon: Activity, badge: 'v9.0' },
+      { name: 'OpenAPI Docs', href: '/api-docs', icon: Code2, badge: 'REST' },
+      { name: 'Auth & RBAC Security', href: '/auth/login', icon: Settings, badge: 'RBAC' },
     ],
   },
 ];
@@ -146,7 +153,7 @@ export const Sidebar: React.FC = () => {
               </div>
               <div>
                 <h1 className="font-serif text-base font-bold text-gray-100 tracking-wide">HIM OS</h1>
-                <p className="text-[10px] text-gray-400 font-mono">Personal Operating System</p>
+                <p className="text-[10px] text-gray-400 font-mono">Executive Personal OS</p>
               </div>
             </div>
             <button
@@ -171,7 +178,7 @@ export const Sidebar: React.FC = () => {
                 <div className="space-y-0.5">
                   {group.items.map((item) => {
                     const Icon = item.icon;
-                    const isActive = pathname === item.href || (item.href !== '/workspace' && pathname.startsWith(item.href + '/'));
+                    const isActive = pathname === item.href || (item.href !== '/workspace' && item.href !== '/career' && item.href !== '/finance' && item.href !== '/mlops' && pathname.startsWith(item.href + '/'));
 
                     return (
                       <Link
@@ -193,9 +200,7 @@ export const Sidebar: React.FC = () => {
                             className={`text-[9px] px-1.5 py-0.5 rounded font-semibold uppercase ${
                               item.badge === 'Flagship'
                                 ? 'bg-[#C9A84C]/20 text-[#C9A84C] border border-[#C9A84C]/30'
-                                : item.badge === 'v5.0'
-                                ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
-                                : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                                : 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
                             }`}
                           >
                             {item.badge}
@@ -220,7 +225,7 @@ export const Sidebar: React.FC = () => {
                 ENG
               </div>
               <div>
-                <p className="text-xs font-medium text-gray-200">Engineer HQ</p>
+                <p className="text-xs font-medium text-gray-200">Executive OS</p>
                 <div className="flex items-center space-x-1 text-[9px] font-mono text-gray-400">
                   <Wifi className="w-2.5 h-2.5 text-emerald-400" />
                   <span>Realtime WebSocket</span>

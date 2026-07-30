@@ -5,6 +5,7 @@ import { Card } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { ScoreRing } from '@/shared/ui/ScoreRing';
+import { MetricCard } from '@/shared/ui/MetricCard';
 import { AiCopilotWidget } from '@/shared/ui/AiCopilotWidget';
 import { AutonomousSchedulerWidget } from '@/shared/ui/AutonomousSchedulerWidget';
 import { AgentMeshWidget } from '@/shared/ui/AgentMeshWidget';
@@ -22,9 +23,9 @@ import {
   RotateCcw,
   Check,
   ExternalLink,
-  TrendingUp,
-  Award,
   ArrowUpRight,
+  Briefcase,
+  TrendingUp,
 } from 'lucide-react';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DailyPlanService } from '@/domain/execution/daily/service';
@@ -68,7 +69,7 @@ export default function DashboardPage() {
       <div className="min-h-[70vh] flex items-center justify-center p-8">
         <div className="flex items-center space-x-3 text-gray-400 font-mono text-xs">
           <div className="w-4 h-4 rounded-full border-2 border-[#C9A84C] border-t-transparent animate-spin" />
-          <span>Loading HIM OS Dashboard...</span>
+          <span>Loading Executive Operating System...</span>
         </div>
       </div>
     );
@@ -76,12 +77,6 @@ export default function DashboardPage() {
 
   const handleMitToggle = (mitNum: 1 | 2 | 3) => {
     DailyPlanService.toggleMit(dto.dailyPlan.date, mitNum);
-    setDto(DashboardService.getDashboardDTO());
-    setAnalytics(AnalyticsAggregator.generateReport());
-  };
-
-  const handleHabitToggle = (habitId: string) => {
-    HabitService.toggleHabitLog(habitId, dto.dailyPlan.date);
     setDto(DashboardService.getDashboardDTO());
     setAnalytics(AnalyticsAggregator.generateReport());
   };
@@ -101,7 +96,7 @@ export default function DashboardPage() {
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-gray-100">
               Welcome Back, {dto.user.name}
             </h1>
-            <Badge variant="gold">v7.0 Agent Mesh</Badge>
+            <Badge variant="gold">v9.0 Executive OS</Badge>
           </div>
           <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Single-DTO Command Center</p>
         </div>
@@ -117,25 +112,69 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* AI Engineering Copilot, Autonomous Scheduler & Multi-Agent Mesh */}
+      {/* Metric Cards KPI Row */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <MetricCard
+          label="Execution Rating"
+          value={`${analytics.overallLifeOSScore}%`}
+          badgeText="7 Score Engines"
+          badgeVariant="gold"
+          icon={TrendingUp}
+          trend="up"
+          trendValue="+4.2%"
+          subtext="Computed across all source domain services."
+        />
+        <MetricCard
+          label="Total Net Worth"
+          value={dto.stats.netWorthFormatted}
+          badgeText="NGN (₦)"
+          badgeVariant="green"
+          icon={Wallet}
+          trend="up"
+          trendValue="+12.4%"
+          subtext="Live balance snapshot aggregated across assets."
+        />
+        <MetricCard
+          label="Market Readiness"
+          value={`${analytics.careerScore.score}%`}
+          badgeText="Flagship"
+          badgeVariant="blue"
+          icon={Briefcase}
+          trend="up"
+          trendValue="Senior Level"
+          subtext="Daily work -> Projects -> CV pipeline score."
+        />
+        <MetricCard
+          label="Books Completed"
+          value={dto.stats.booksReadCount}
+          badgeText="Learning Target"
+          badgeVariant="purple"
+          icon={BookOpen}
+          trend="neutral"
+          trendValue="20 Goal"
+          subtext="Goethe B1 German Anki practice active."
+        />
+      </div>
+
+      {/* Autonomous AI Agents Row */}
       <AiCopilotWidget />
       <AutonomousSchedulerWidget />
       <AgentMeshWidget />
 
-      {/* Grid Section 1: Hero Metrics (Execution Score, Today's MITs, Deep Work Timer) */}
+      {/* Grid Section: Hero Execution Score & Today's MITs */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Execution Score (7-Engine Aggregator) */}
         <Card goldBorder className="lg:col-span-4 flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider block">Life OS Analytics</span>
-              <h2 className="text-lg font-serif font-bold text-gray-100 mt-0.5">Execution Score</h2>
+              <h2 className="text-lg font-serif font-bold text-gray-100 mt-0.5">Execution Breakdown</h2>
             </div>
-            <Badge variant="gold" className="text-[10px]">7 Engines Active</Badge>
+            <Badge variant="gold" className="text-[10px]">Active</Badge>
           </div>
 
           <div className="flex flex-col items-center justify-center py-2">
-            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" />
+            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Life OS Rating" />
           </div>
 
           <div className="grid grid-cols-3 gap-2 pt-2 border-t border-gray-800/80 text-center font-mono text-[11px]">
@@ -257,82 +296,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Grid Section 2: Domain Snapshots (Current Project, Learning, Finance, Habit Streaks) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Current Project */}
-        <Card className="space-y-3">
-          <div className="flex justify-between items-center text-xs text-gray-400">
-            <span className="font-mono text-[10px] uppercase">Current Project</span>
-            <FolderGit2 className="w-4 h-4 text-blue-400" />
-          </div>
-          <div>
-            <h3 className="text-base font-bold text-gray-100">Project HIM OS</h3>
-            <p className="text-xs text-gray-400 mt-0.5">Next.js 15, FastAPI, Supabase</p>
-          </div>
-          <div className="pt-2 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-[11px] text-emerald-400 font-medium">v6.0 Shipped</span>
-            <Button variant="ghost" size="sm" className="p-0 text-gray-400 hover:text-gray-100" onClick={() => window.location.assign('/planning/projects')}>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </Card>
-
-        {/* Learning Velocity */}
-        <Card className="space-y-3">
-          <div className="flex justify-between items-center text-xs text-gray-400">
-            <span className="font-mono text-[10px] uppercase">Learning Progress</span>
-            <BookOpen className="w-4 h-4 text-purple-400" />
-          </div>
-          <div>
-            <h3 className="text-base font-bold text-gray-100">{dto.stats.booksReadCount} Books Completed</h3>
-            <p className="text-xs text-gray-400 mt-0.5">German Anki: Goethe B1 Target</p>
-          </div>
-          <div className="pt-2 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-[11px] text-[#C9A84C] font-mono">20 Books Computed Target</span>
-            <Button variant="ghost" size="sm" className="p-0 text-gray-400 hover:text-gray-100" onClick={() => window.location.assign('/learning')}>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </Card>
-
-        {/* Financial Snapshot */}
-        <Card className="space-y-3">
-          <div className="flex justify-between items-center text-xs text-gray-400">
-            <span className="font-mono text-[10px] uppercase">Financial Snapshot</span>
-            <Wallet className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div>
-            <h3 className="text-xl font-bold text-gray-100">{dto.stats.netWorthFormatted}</h3>
-            <p className="text-xs text-emerald-400 mt-0.5 font-mono">+12.4% Net Worth Growth</p>
-          </div>
-          <div className="pt-2 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-[11px] text-gray-400">Asset & Brokerage Accounts</span>
-            <Button variant="ghost" size="sm" className="p-0 text-gray-400 hover:text-gray-100" onClick={() => window.location.assign('/finance')}>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </Card>
-
-        {/* Habit Execution Streaks */}
-        <Card className="space-y-3">
-          <div className="flex justify-between items-center text-xs text-gray-400">
-            <span className="font-mono text-[10px] uppercase">Habit Streaks</span>
-            <Flame className="w-4 h-4 text-[#C9A84C]" />
-          </div>
-          <div>
-            <h3 className="text-base font-bold text-gray-100">7-Day Active Streak</h3>
-            <p className="text-xs text-gray-400 mt-0.5">5 Core Habits Tracked</p>
-          </div>
-          <div className="pt-2 border-t border-gray-800/80 flex items-center justify-between">
-            <span className="text-[11px] text-emerald-400 font-mono">80% 30-Day Completion</span>
-            <Button variant="ghost" size="sm" className="p-0 text-gray-400 hover:text-gray-100" onClick={() => window.location.assign('/execution/habits')}>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </Card>
-      </div>
-
-      {/* Grid Section 3: Microservices Telemetry Widgets (GitHub Commits & Weather) */}
+      {/* Microservices Telemetry Widgets (GitHub Commits & Weather) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {weather && (
           <Card className="flex items-center justify-between p-4">
