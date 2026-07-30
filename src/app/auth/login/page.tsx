@@ -5,7 +5,7 @@ import { Card } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { useRouter } from 'next/navigation';
-import { Download, FileText, Upload, HardDrive, CheckCircle2 } from 'lucide-react';
+import { Download, FileText, Upload, HardDrive, ShieldCheck } from 'lucide-react';
 import { BackupEngine } from '@/core/backup/backupEngine';
 import { RbacControlWidget } from '@/shared/ui/RbacControlWidget';
 
@@ -87,8 +87,11 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <div className="text-center text-xs text-gray-500 pt-2 border-t border-gray-800">
-          <span>Need an account? </span>
+        <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-800">
+          <Button variant="outline" size="sm" onClick={() => router.push('/auth/audit')}>
+            <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <span>Security Audit Log</span>
+          </Button>
           <a href="/auth/register" className="text-[#C9A84C] hover:underline font-semibold">
             Create Profile
           </a>
