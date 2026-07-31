@@ -7,13 +7,13 @@ import { Button } from '@/shared/ui/Button';
 import { MetricCard } from '@/shared/ui/MetricCard';
 import { GraduationCap, BookOpen, Globe, Award, Sparkles, CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { LearningService } from '@/domain/learning/service';
-import { Book } from '@/domain/learning/types';
+import { LearningItem } from '@/domain/learning/types';
 
 export default function LearnEcosystemPage() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [items, setItems] = useState<LearningItem[]>([]);
 
   useEffect(() => {
-    setBooks(LearningService.getBooks());
+    setItems(LearningService.getBooks());
   }, []);
 
   return (
@@ -39,7 +39,7 @@ export default function LearnEcosystemPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <MetricCard
           label="Books Completed"
-          value={`${books.length} Books`}
+          value={`${items.length} Books`}
           badgeText="Active Track"
           badgeVariant="gold"
           icon={BookOpen}
@@ -92,20 +92,22 @@ export default function LearnEcosystemPage() {
           </div>
 
           <div className="space-y-3">
-            {books.map((book) => (
+            {items.map((item) => (
               <div
-                key={book.id}
+                key={item.id}
                 className="p-3.5 rounded-xl bg-[#071A12] border border-[#2B4D3E] flex items-center justify-between"
               >
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-100">{book.title}</h3>
-                  <p className="text-xs text-gray-400 mt-0.5">{book.author} • {book.category}</p>
+                  <h3 className="text-sm font-semibold text-gray-100">{item.title}</h3>
+                  <p className="text-xs text-gray-400 mt-0.5">{item.author} • {item.type}</p>
                 </div>
                 <div className="text-right">
                   <Badge variant="gold" className="text-[9px]">
-                    {book.status}
+                    {item.status}
                   </Badge>
-                  <p className="text-[10px] text-gray-500 font-mono mt-1">{book.progressPct}% Read</p>
+                  <p className="text-[10px] text-gray-500 font-mono mt-1">
+                    {item.pagesTotal ? Math.round(((item.pagesRead || 0) / item.pagesTotal) * 100) : 100}% Read
+                  </p>
                 </div>
               </div>
             ))}
