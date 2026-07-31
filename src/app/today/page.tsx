@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { Target, Clock, Check, CalendarDays, BookOpen, Flame, Play, Pause, RotateCcw, ArrowRight } from 'lucide-react';
+import { Target, Clock, Check, CalendarDays, BookOpen, Flame, Play, Pause, RotateCcw, Sparkles, AlertCircle } from 'lucide-react';
 import { DailyPlanService } from '@/domain/execution/daily/service';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DashboardDTO } from '@/domain/dashboard/types';
@@ -13,11 +13,17 @@ export default function TodayExecutionPage() {
   const [dto, setDto] = useState<DashboardDTO | null>(null);
   const [timerSeconds, setTimerSeconds] = useState<number>(25 * 60);
   const [timerRunning, setTimerRunning] = useState<boolean>(false);
+  const [morningIntention, setMorningIntention] = useState('');
   const [reflection, setReflection] = useState('');
-  const [journalSaved, setJournalSaved] = useState(false);
+  const [gratitude, setGratitude] = useState('');
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    setDto(DashboardService.getDashboardDTO());
+    const data = DashboardService.getDashboardDTO();
+    setDto(data);
+    setMorningIntention(data.dailyPlan.morningIntention || '');
+    setReflection(data.dailyPlan.reflection || '');
+    setGratitude(data.dailyPlan.gratitude || '');
   }, []);
 
   useEffect(() => {
@@ -46,14 +52,15 @@ export default function TodayExecutionPage() {
     setDto(DashboardService.getDashboardDTO());
   };
 
-  const handleSaveReflection = (e: React.FormEvent) => {
+  const handleSavePlan = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reflection.trim()) return;
     const plan = DailyPlanService.getPlanByDate(dto.dailyPlan.date);
+    plan.morningIntention = morningIntention;
     plan.reflection = reflection;
+    plan.gratitude = gratitude;
     DailyPlanService.savePlan(plan);
-    setJournalSaved(true);
-    setTimeout(() => setJournalSaved(false), 2000);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
   const formatTimer = (secs: number) => {
@@ -84,7 +91,23 @@ export default function TodayExecutionPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column: Morning Planning & MIT Outcomes */}
         <div className="lg:col-span-7 space-y-6">
-          <Card goldBorder className="space-y-4 p-6">
+          {/* Morning Intention Banner */}
+          <Card goldBorder className="space-y-3 p-6">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-5 h-5 text-[#22C55E]" />
+              <h2 className="text-base font-serif font-bold text-gray-100">Morning Execution Intention</h2>
+            </div>
+            <input
+              type="text"
+              value={morningIntention}
+              onChange={(e) => setMorningIntention(e.target.value)}
+              placeholder="What is your singular vision for today?"
+              className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl px-3.5 py-2.5 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+            />
+          </Card>
+
+          {/* Today's Priorities (MIT Checklist) */}
+          <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Target className="w-5 h-5 text-[#22C55E]" />
@@ -126,27 +149,42 @@ export default function TodayExecutionPage() {
             </div>
           </Card>
 
-          {/* Evening Reflection & Daily Journal */}
+          {/* Evening Reflection & Gratitude */}
           <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <BookOpen className="w-5 h-5 text-[#4ADE80]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Evening Reflection & Journal</h2>
+                <h2 className="text-lg font-serif font-bold text-gray-100">Evening Reflection & Gratitude</h2>
               </div>
               <Badge variant="blue" className="text-[10px]">HPS Ritual</Badge>
             </div>
 
-            <form onSubmit={handleSaveReflection} className="space-y-3">
-              <textarea
-                value={reflection}
-                onChange={(e) => setReflection(e.target.value)}
-                placeholder="What went well today? What did you learn?"
-                rows={4}
-                className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl p-3 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
-              />
-              <div className="flex justify-end">
+            <form onSubmit={handleSavePlan} className="space-y-3">
+              <div>
+                <label className="text-xs font-medium text-gray-400 block mb-1">Evening Reflection</label>
+                <textarea
+                  value={reflection}
+                  onChange={(e) => setReflection(e.target.value)}
+                  placeholder="What went well today? What did you learn?"
+                  rows={3}
+                  className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl p-3 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-medium text-gray-400 block mb-1">Daily Gratitude</label>
+                <input
+                  type="text"
+                  value={gratitude}
+                  onChange={(e) => setGratitude(e.target.value)}
+                  placeholder="What are you grateful for today?"
+                  className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl px-3.5 py-2 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+                />
+              </div>
+
+              <div className="flex justify-end pt-1">
                 <Button type="submit" variant="primary" size="sm">
-                  {journalSaved ? 'Reflection Saved!' : 'Save Reflection'}
+                  {saved ? 'Execution Log Saved!' : 'Save Today Plan'}
                 </Button>
               </div>
             </form>
