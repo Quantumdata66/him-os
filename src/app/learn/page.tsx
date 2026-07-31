@@ -13,7 +13,7 @@ export default function LearnEcosystemPage() {
   const [items, setItems] = useState<LearningItem[]>([]);
 
   useEffect(() => {
-    setItems(LearningService.getBooks());
+    setItems(LearningService.getItems());
   }, []);
 
   return (
