@@ -84,7 +84,7 @@ export default function DemoShowcasePage() {
             Interactive presentation mode designed for technical interviews, engineering demos, and architectural reviews.
           </p>
         </div>
-        <Button variant="gold" onClick={() => window.location.assign('/dashboard')}>
+        <Button variant="primary" onClick={() => window.location.assign('/dashboard')}>
           <span>Open Live Operating System</span>
           <ArrowRight className="w-4 h-4 ml-1.5" />
         </Button>
