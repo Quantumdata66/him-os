@@ -49,7 +49,9 @@ export default function TodayExecutionPage() {
   const handleSaveReflection = (e: React.FormEvent) => {
     e.preventDefault();
     if (!reflection.trim()) return;
-    DailyPlanService.logReflection(dto.dailyPlan.date, reflection);
+    const plan = DailyPlanService.getPlanByDate(dto.dailyPlan.date);
+    plan.reflection = reflection;
+    DailyPlanService.savePlan(plan);
     setJournalSaved(true);
     setTimeout(() => setJournalSaved(false), 2000);
   };
