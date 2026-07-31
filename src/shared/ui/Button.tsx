@@ -1,11 +1,11 @@
+'use client';
+
 import React from 'react';
-import { cn } from './cn';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'gold';
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
-  className?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -15,25 +15,26 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#09090B] disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98]';
+  const baseStyles =
+    'inline-flex items-center justify-center font-medium rounded-[12px] transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:pointer-events-none select-none cursor-pointer';
 
-  const variants = {
-    primary: 'bg-[#C9A84C] text-gray-950 hover:bg-[#D4AF37] font-semibold focus:ring-[#C9A84C]/50 shadow-sm shadow-[#C9A84C]/20',
-    secondary: 'bg-gray-800 text-gray-100 hover:bg-gray-700 border border-gray-700/60 focus:ring-gray-600',
-    outline: 'border border-gray-700/80 bg-transparent text-gray-200 hover:bg-gray-800/60 hover:border-gray-600 focus:ring-gray-600',
-    ghost: 'bg-transparent text-gray-400 hover:text-gray-100 hover:bg-gray-800/40 focus:ring-gray-600',
-    gold: 'bg-gradient-to-r from-[#C9A84C] to-[#D4AF37] text-gray-950 font-bold hover:brightness-110 shadow-md shadow-[#C9A84C]/20',
+  const variantStyles = {
+    primary: 'bg-[#22C55E] text-[#071A12] font-bold hover:bg-[#4ADE80] shadow-md shadow-[#22C55E]/20',
+    secondary: 'bg-[#1D4735] text-[#F9FAFB] hover:bg-[#22C55E]/20 border border-[#2B4D3E]',
+    outline: 'border border-[#2B4D3E] text-gray-200 hover:border-[#22C55E] hover:text-[#4ADE80] bg-transparent',
+    ghost: 'text-gray-400 hover:text-[#F9FAFB] hover:bg-[#1D4735]/50 bg-transparent',
+    danger: 'bg-red-600 text-white hover:bg-red-700',
   };
 
-  const sizes = {
-    sm: 'text-xs px-3 py-1.5 rounded-md space-x-1.5',
-    md: 'text-xs px-4 py-2 rounded-lg space-x-2',
-    lg: 'text-sm px-5 py-2.5 rounded-lg space-x-2.5',
+  const sizeStyles = {
+    sm: 'px-3 py-1.5 text-xs',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-6 py-3 text-base',
   };
 
   return (
     <button
-      className={cn(baseStyles, variants[variant], sizes[size], className)}
+      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       {...props}
     >
       {children}

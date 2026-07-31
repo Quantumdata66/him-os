@@ -1,28 +1,19 @@
-import React from 'react';
-import { cn } from './cn';
+'use client';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+import React from 'react';
+
+interface CardProps {
   children: React.ReactNode;
   className?: string;
   goldBorder?: boolean;
 }
 
-export const Card: React.FC<CardProps> = ({
-  children,
-  className = '',
-  goldBorder = false,
-  ...props
-}) => {
+export const Card: React.FC<CardProps> = ({ children, className = '', goldBorder = false }) => {
   return (
     <div
-      className={cn(
-        'bg-[#111827] rounded-xl p-5 border transition-all duration-200 shadow-sm hover:shadow-md',
-        goldBorder
-          ? 'border-[#C9A84C]/40 hover:border-[#C9A84C]/70 shadow-[#C9A84C]/5'
-          : 'border-gray-800/80 hover:border-gray-700/80',
-        className
-      )}
-      {...props}
+      className={`p-6 rounded-[18px] bg-[#163526] border ${
+        goldBorder ? 'border-[#22C55E] shadow-lg shadow-[#22C55E]/10' : 'border-[#2B4D3E]'
+      } transition-all duration-200 hover:border-[#22C55E]/60 ${className}`}
     >
       {children}
     </div>

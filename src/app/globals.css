@@ -2,39 +2,64 @@
 
 @layer base {
   :root {
-    --bg-obsidian: #09090B;
-    --bg-surface: #0F172A;
-    --bg-card: #111827;
-    --accent-gold: #C9A84C;
-    --accent-gold-bright: #D4AF37;
-    --accent-gold-hover: #E5C158;
+    --bg-deep-forest: #071A12;
+    --bg-dark-evergreen: #0F2D20;
+    --bg-charcoal-green: #163526;
+    --bg-emerald-slate: #1D4735;
+    --accent-emerald: #22C55E;
+    --accent-mint: #4ADE80;
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --border-color: #2B4D3E;
   }
 
   body {
-    background-color: #09090B;
-    color: #F3F4F6;
+    background-color: #071A12;
+    color: #F9FAFB;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
-  h1, h2, h3, .font-serif {
+  h1, h2, h3, h4, h5, h6, .font-serif {
     font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  code, pre, .font-mono {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
-/* Glassmorphism & Gold Glow Utility Classes */
-.gold-glow {
-  box-shadow: 0 0 25px -5px rgba(201, 168, 76, 0.2);
+/* Glassmorphism & Subtle Forest Glow Utility Classes */
+.forest-card {
+  background-color: #163526;
+  border: 1px solid #2B4D3E;
+  border-radius: 18px;
+  transition: all 0.2s ease-in-out;
 }
 
-.gold-glow-hover:hover {
-  box-shadow: 0 0 30px -3px rgba(201, 168, 76, 0.35);
+.forest-card:hover {
+  border-color: #22C55E;
+  box-shadow: 0 0 20px -4px rgba(34, 197, 94, 0.15);
 }
 
-.glass-card {
-  background: rgba(17, 24, 39, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+.forest-glow {
+  box-shadow: 0 0 25px -5px rgba(34, 197, 94, 0.2);
+}
+
+/* Skeleton Loaders (HPS Chapter 7.12 & 9.18) */
+.skeleton {
+  background: linear-gradient(90deg, #163526 25%, #1D4735 50%, #163526 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Custom Scrollbars */
@@ -44,19 +69,19 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #09090B;
+  background: #071A12;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1F2937;
+  background: #1D4735;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A84C;
+  background: #22C55E;
 }
 
-/* Print Stylesheet for Executive Resume & Invoices */
+/* Print Stylesheet for Executive Exporter & Invoices */
 @media print {
   body {
     background-color: #ffffff !important;
