@@ -12,8 +12,6 @@ import { AgentMeshWidget } from '@/shared/ui/AgentMeshWidget';
 import {
   Target,
   Clock,
-  FolderGit2,
-  BookOpen,
   Wallet,
   Flame,
   CloudSun,
@@ -22,20 +20,19 @@ import {
   Pause,
   RotateCcw,
   Check,
-  ExternalLink,
   ArrowUpRight,
   Briefcase,
   TrendingUp,
+  BookOpen,
 } from 'lucide-react';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DailyPlanService } from '@/domain/execution/daily/service';
-import { HabitService } from '@/domain/execution/habits/service';
 import { FastApiClient, GitHubSummary, WeatherSummary } from '@/core/api/fastapiClient';
 import { AnalyticsAggregator } from '@/core/analytics/analyticsAggregator';
 import { SystemAnalyticsReport } from '@/core/analytics/types';
 import { DashboardDTO } from '@/domain/dashboard/types';
 
-export default function DashboardPage() {
+export default function HomeWorkspacePage() {
   const [dto, setDto] = useState<DashboardDTO | null>(null);
   const [analytics, setAnalytics] = useState<SystemAnalyticsReport | null>(null);
   const [github, setGithub] = useState<GitHubSummary | null>(null);
@@ -69,7 +66,7 @@ export default function DashboardPage() {
       <div className="min-h-[70vh] flex items-center justify-center p-8">
         <div className="flex items-center space-x-3 text-gray-400 font-mono text-xs">
           <div className="w-4 h-4 rounded-full border-2 border-[#C9A84C] border-t-transparent animate-spin" />
-          <span>Loading Executive Operating System...</span>
+          <span>Loading Home Command Center...</span>
         </div>
       </div>
     );
@@ -89,16 +86,16 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 select-none">
-      {/* Header Banner */}
+      {/* 1. Who am I today? Executive Context Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-gray-800/80 gap-4">
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-gray-100">
-              Welcome Back, {dto.user.name}
+              {dto.user.name} — Executive Command Center
             </h1>
-            <Badge variant="gold">v9.0 Executive OS</Badge>
+            <Badge variant="gold">HIM OS V1</Badge>
           </div>
-          <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Single-DTO Command Center</p>
+          <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Focused Execution Environment</p>
         </div>
         <div className="flex items-center space-x-3">
           <Badge variant="green" className="text-xs py-1 px-3">
@@ -106,23 +103,23 @@ export default function DashboardPage() {
             <span>Streak: 7 Days</span>
           </Badge>
           <Button variant="primary" size="sm" onClick={() => window.location.assign('/execution/daily')}>
-            <span>Daily Planner</span>
+            <span>Daily Focus Planner</span>
             <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
           </Button>
         </div>
       </div>
 
-      {/* Metric Cards KPI Row */}
+      {/* 2. How am I progressing? Executive KPI Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <MetricCard
           label="Execution Rating"
           value={`${analytics.overallLifeOSScore}%`}
-          badgeText="7 Score Engines"
+          badgeText="7 Engines"
           badgeVariant="gold"
           icon={TrendingUp}
           trend="up"
           trendValue="+4.2%"
-          subtext="Computed across all source domain services."
+          subtext="Life OS score computed from active domains."
         />
         <MetricCard
           label="Total Net Worth"
@@ -142,39 +139,39 @@ export default function DashboardPage() {
           icon={Briefcase}
           trend="up"
           trendValue="Senior Level"
-          subtext="Daily work -> Projects -> CV pipeline score."
+          subtext="Work -> Projects -> CV pipeline score."
         />
         <MetricCard
           label="Books Completed"
           value={dto.stats.booksReadCount}
-          badgeText="Learning Target"
+          badgeText="Learning Goal"
           badgeVariant="purple"
           icon={BookOpen}
           trend="neutral"
-          trendValue="20 Goal"
+          trendValue="20 Target"
           subtext="Goethe B1 German Anki practice active."
         />
       </div>
 
-      {/* Autonomous AI Agents Row */}
+      {/* AI Agents Row */}
       <AiCopilotWidget />
       <AutonomousSchedulerWidget />
       <AgentMeshWidget />
 
-      {/* Grid Section: Hero Execution Score & Today's MITs */}
+      {/* 3. What matters most today? MITs & Execution Score Ring */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Execution Score (7-Engine Aggregator) */}
+        {/* Execution Score Ring */}
         <Card goldBorder className="lg:col-span-4 flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
               <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider block">Life OS Analytics</span>
-              <h2 className="text-lg font-serif font-bold text-gray-100 mt-0.5">Execution Breakdown</h2>
+              <h2 className="text-lg font-serif font-bold text-gray-100 mt-0.5">Execution Score Ring</h2>
             </div>
             <Badge variant="gold" className="text-[10px]">Active</Badge>
           </div>
 
           <div className="flex flex-col items-center justify-center py-2">
-            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Life OS Rating" />
+            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" />
           </div>
 
           <div className="grid grid-cols-3 gap-2 pt-2 border-t border-gray-800/80 text-center font-mono text-[11px]">
@@ -199,14 +196,14 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
                 <Target className="w-5 h-5 text-[#C9A84C]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Today's MITs</h2>
+                <h2 className="text-lg font-serif font-bold text-gray-100">Today's Most Important Outcomes</h2>
               </div>
-              <Badge variant="gold" className="text-[10px]">Most Important Tasks</Badge>
+              <Badge variant="gold" className="text-[10px]">MIT Checklist</Badge>
             </div>
 
             <div className="space-y-2.5">
               {[
-                { num: 1 as const, text: dto.dailyPlan.mit1 || 'Configure Production SaaS Dashboard', done: dto.dailyPlan.mit1Done },
+                { num: 1 as const, text: dto.dailyPlan.mit1 || 'Configure Production SaaS Dashboard UI', done: dto.dailyPlan.mit1Done },
                 { num: 2 as const, text: dto.dailyPlan.mit2 || 'Verify Lucide React Icons Integration', done: dto.dailyPlan.mit2Done },
                 { num: 3 as const, text: dto.dailyPlan.mit3 || 'German Anki Vocabulary Practice', done: dto.dailyPlan.mit3Done },
               ].map((mit) => (
@@ -239,13 +236,13 @@ export default function DashboardPage() {
 
           <div className="pt-2 text-right">
             <Button variant="ghost" size="sm" onClick={() => window.location.assign('/execution/daily')}>
-              <span>Edit Daily Plan</span>
+              <span>Edit Daily Focus Plan</span>
               <ArrowUpRight className="w-3 h-3 ml-1" />
             </Button>
           </div>
         </Card>
 
-        {/* Deep Work Timer */}
+        {/* 4. What should I do next? Deep Work Focus Timer */}
         <Card className="lg:col-span-3 flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -296,7 +293,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* Microservices Telemetry Widgets (GitHub Commits & Weather) */}
+      {/* Weather & GitHub Telemetry Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {weather && (
           <Card className="flex items-center justify-between p-4">
