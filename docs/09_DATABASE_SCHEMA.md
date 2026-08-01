@@ -1,7 +1,32 @@
-# 09 — Database Schema
+# 09 — Database Schema & Data Model
 
-> **HPS Chapter Reference:** Chapter 11 — Database Architecture & Data Model
+> **HPS Chapter Reference:** Chapter 11 — Database Architecture & Data Model  
+> **Owner:** Abdulazeez Nurudeen Adedotun  
+> **Version:** 1.5  
 
-- Database: Supabase Managed PostgreSQL.
-- Common Columns: `id UUID`, `user_id UUID`, `created_at`, `updated_at`, `deleted_at`, `metadata JSONB`.
-- Core Entities: `users`, `goals`, `projects`, `milestones`, `tasks`, `daily_plans`, `deep_work_sessions`, `habits`, `habit_logs`, `books`, `learning_records`, `transactions`, `journal_entries`, `decisions`.
+---
+
+## 🗄️ 1. Database Philosophy & Common Columns
+
+Every table in HIM OS follows uniform conventions:
+
+```sql
+id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+user_id    UUID NOT NULL REFERENCES users(id),
+created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()),
+deleted_at TIMESTAMP WITH TIME ZONE NULL, -- Soft delete support
+metadata   JSONB DEFAULT '{}'::jsonb      -- Flexible JSON metadata
+```
+
+---
+
+## 📊 2. Core Entities & Relationships
+
+- **Identity**: `users`, `profiles`, `preferences`, `sessions`
+- **Planning**: `goals`, `projects`, `milestones`, `tasks`
+- **Execution**: `daily_plans`, `deep_work_sessions`, `calendar_events`
+- **Growth**: `habits`, `habit_logs`, `achievements`
+- **Learning**: `books`, `courses`, `certifications`, `notes`
+- **Reflection**: `journal_entries`, `reviews`, `decisions`
+- **Finance**: `transactions`, `budgets`, `investments`
