@@ -65,7 +65,7 @@ export default function HomeWorkspacePage() {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-8">
         <div className="flex items-center space-x-3 text-text-muted font-mono text-xs">
-          <div className="w-4 h-4 rounded-full border-2 border-accent-gold border-t-transparent animate-spin" />
+          <div className="w-4 h-4 rounded-full border-2 border-intel-slate border-t-transparent animate-spin" />
           <span>Loading Home Command Center...</span>
         </div>
       </div>
@@ -86,14 +86,14 @@ export default function HomeWorkspacePage() {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-12 select-none font-sans">
-      {/* 1. Who am I today? Executive Context Header */}
+      {/* 1. Executive Context Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-border-subtle gap-4">
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <h1 className="text-2xl md:text-3xl font-serif font-bold text-text-primary">
               {dto.user.name} — Executive Command Center
             </h1>
-            <Badge variant="gold">HIM OS V1.5</Badge>
+            <Badge variant="intel">HIM OS V1.5</Badge>
           </div>
           <p className="text-xs text-text-muted font-mono">{dto.todayDate} • Focused Execution Environment</p>
         </div>
@@ -109,27 +109,29 @@ export default function HomeWorkspacePage() {
         </div>
       </div>
 
-      {/* 2. How am I progressing? Executive KPI Metrics Row */}
+      {/* 2. Executive KPI Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <MetricCard
           label="Execution Rating"
           value={`${analytics.overallLifeOSScore}%`}
           badgeText="7 Engines"
-          badgeVariant="gold"
+          badgeVariant="intel"
           icon={TrendingUp}
           trend="up"
           trendValue="+4.2%"
           subtext="Life OS score computed from active domains."
+          track="intel"
         />
         <MetricCard
           label="Total Net Worth"
           value={dto.stats.netWorthFormatted}
           badgeText="NGN (₦)"
-          badgeVariant="emerald"
+          badgeVariant="default"
           icon={Wallet}
           trend="up"
           trendValue="+12.4%"
           subtext="Live balance snapshot aggregated across assets."
+          track="default"
         />
         <MetricCard
           label="Market Readiness"
@@ -146,21 +148,21 @@ export default function HomeWorkspacePage() {
           label="Books Completed"
           value={dto.stats.booksReadCount}
           badgeText="Learning Goal"
-          badgeVariant="intel"
+          badgeVariant="default"
           icon={BookOpen}
           trend="neutral"
           trendValue="20 Target"
           subtext="Goethe B1 German Anki practice active."
-          track="intel"
+          track="default"
         />
       </div>
 
-      {/* AI Agents Row */}
+      {/* AI Intelligence Row */}
       <AiCopilotWidget />
       <AutonomousSchedulerWidget />
       <AgentMeshWidget />
 
-      {/* 3. What matters most today? MITs & Execution Score Ring */}
+      {/* 3. Core Outcomes & Execution Analytics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Execution Score Ring */}
         <Card className="lg:col-span-4 flex flex-col justify-between space-y-4">
@@ -173,13 +175,13 @@ export default function HomeWorkspacePage() {
           </div>
 
           <div className="flex flex-col items-center justify-center py-2">
-            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" track="emerald" />
+            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" track="intel" />
           </div>
 
           <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border-subtle text-center font-mono text-[11px]">
             <div className="bg-bg-subtle p-2 rounded-xl border border-border-subtle">
               <span className="text-text-muted block text-[9px]">Consistency</span>
-              <span className="font-bold text-accent-mint">{analytics.consistencyScore.score}%</span>
+              <span className="font-bold text-text-primary">{analytics.consistencyScore.score}%</span>
             </div>
             <div className="bg-bg-subtle p-2 rounded-xl border border-border-subtle">
               <span className="text-text-muted block text-[9px]">Engineer</span>
@@ -197,7 +199,7 @@ export default function HomeWorkspacePage() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-accent-mint" />
+                <Target className="w-5 h-5 text-accent-emerald" />
                 <h2 className="text-lg font-serif font-bold text-text-primary">Today's Most Important Outcomes</h2>
               </div>
               <Badge variant="emerald" className="text-[10px]">MIT Checklist</Badge>
@@ -215,7 +217,7 @@ export default function HomeWorkspacePage() {
                   className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                     mit.done
                       ? 'bg-bg-subtle border-border-subtle text-text-muted line-through'
-                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-accent-emerald'
+                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-border-hover'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -244,7 +246,7 @@ export default function HomeWorkspacePage() {
           </div>
         </Card>
 
-        {/* 4. What should I do next? Deep Work Focus Timer */}
+        {/* 4. Deep Work Focus Timer */}
         <Card className="lg:col-span-3 flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -256,7 +258,7 @@ export default function HomeWorkspacePage() {
             </div>
 
             <div className="text-center py-5">
-              <div className="text-4xl font-mono font-bold text-accent-mint tracking-wider mb-1">
+              <div className="text-4xl font-mono font-bold text-text-primary tracking-wider mb-1">
                 {formatTimer(timerSeconds)}
               </div>
               <p className="text-[11px] text-text-muted">High-Focus Engineering Session</p>
@@ -295,7 +297,7 @@ export default function HomeWorkspacePage() {
         </Card>
       </div>
 
-      {/* Weather & GitHub Telemetry Bar */}
+      {/* Telemetry Bar */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {weather && (
           <Card className="flex items-center justify-between p-4">
@@ -315,7 +317,7 @@ export default function HomeWorkspacePage() {
         {github && (
           <Card className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-xl bg-accent-emerald/20 border border-accent-emerald/30 flex items-center justify-center text-accent-mint">
+              <div className="w-9 h-9 rounded-xl bg-bg-subtle border border-border-subtle flex items-center justify-center text-text-secondary">
                 <GitCommit className="w-5 h-5" />
               </div>
               <div>
@@ -326,7 +328,7 @@ export default function HomeWorkspacePage() {
               </div>
             </div>
             <div className="text-right font-mono">
-              <span className="text-xl font-bold text-accent-mint">{github.total_commits_today} Commits</span>
+              <span className="text-xl font-bold text-text-primary">{github.total_commits_today} Commits</span>
               <p className="text-[9px] text-text-muted font-sans">Synced via FastAPI</p>
             </div>
           </Card>

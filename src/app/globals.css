@@ -1,23 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  /* Structural Tokens (Lifted Charcoal) */
+  /* Structural Tokens (Lifted Charcoal - 65%) */
   --color-bg-primary: #0B0F12;
   --color-bg-surface: #12181C;
   --color-bg-elevated: #1A2228;
   --color-bg-subtle: #222C34;
   --color-border-subtle: #28353D;
-  --color-border-hover: #10B981;
+  --color-border-hover: #3A4752;
 
-  /* Identity Tokens (Emerald/Mint Green) */
+  /* Identity Tokens (Emerald/Mint Green - 10% Max) */
   --color-accent-emerald: #10B981;
   --color-accent-mint: #34D399;
 
-  /* Intelligence Tokens (Executive Sapphire) */
+  /* Intelligence Tokens (Executive Sapphire - 4%) */
   --color-intel-sapphire: #4776B4;
   --color-intel-slate: #6495ED;
 
-  /* Single Executive Gold Token (1% Max) */
+  /* Single Executive Gold Token (1% Sacred Max) */
   --color-accent-gold: #C9A84C;
 
   /* Semantic Status Tokens */
@@ -26,7 +26,7 @@
   --color-status-danger: #EF4444;
   --color-status-info: #4776B4;
 
-  /* Neutral Text Tokens */
+  /* Neutral Text Tokens (20%) */
   --color-text-primary: #F9FAFB;
   --color-text-secondary: #9CA3AF;
   --color-text-muted: #6B7280;
@@ -64,7 +64,7 @@
   --max-viewport-width: 1440px;
 }
 
-/* Custom Scrollbars */
+/* Architectural Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -77,7 +77,7 @@
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-emerald);
+  background: #3A4752;
 }
 
 /* Typography Hierarchy Enforcement (Decision 002) */
@@ -93,26 +93,22 @@ code, pre, .font-mono {
   font-family: var(--font-mono);
 }
 
-/* Reusable Executive Utilities */
-.forest-card {
+/* Architectural Executive Utilities (Quiet & Restrained) */
+.exec-card {
   background-color: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out;
 }
 
-.forest-card:hover {
-  border-color: var(--accent-emerald);
-}
-
-.forest-glow {
-  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+.exec-card:hover {
+  border-color: #3A4752;
 }
 
 .intel-glow {
-  box-shadow: 0 0 25px -5px rgba(71, 118, 180, 0.15);
+  box-shadow: 0 0 20px -5px rgba(71, 118, 180, 0.12);
 }
 
 .gold-glow {
-  box-shadow: 0 0 25px -5px rgba(201, 168, 76, 0.15);
+  box-shadow: 0 0 20px -5px rgba(201, 168, 76, 0.12);
 }

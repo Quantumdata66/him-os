@@ -23,7 +23,7 @@ export const AgentMeshWidget: React.FC = () => {
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-text-secondary">Sync Engine</span>
-          <span className="font-mono text-accent-mint">Verified</span>
+          <span className="font-mono text-intel-slate">Verified</span>
         </div>
         <div className="flex items-center justify-between text-xs">
           <span className="text-text-secondary">Analytics Protocol</span>

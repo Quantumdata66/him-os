@@ -16,7 +16,7 @@ export interface MetricCardProps {
   subtext?: string;
   badgeText?: string;
   badgeVariant?: string;
-  track?: 'emerald' | 'intel' | 'gold';
+  track?: 'emerald' | 'intel' | 'gold' | 'default';
 }
 
 export const MetricCard: React.FC<MetricCardProps> = ({
@@ -31,14 +31,16 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   subtext,
   badgeText,
   badgeVariant,
-  track = 'emerald',
+  track = 'default',
 }) => {
   const displayTitle = title || label || '';
   const displaySubtitle = subtitle || subtext || '';
   const displayChange = change || trendValue || '';
 
-  let iconTrackStyles = 'bg-accent-emerald/15 text-accent-mint border-accent-emerald/30';
-  if (track === 'intel') {
+  let iconTrackStyles = 'bg-bg-subtle text-text-secondary border-border-subtle';
+  if (track === 'emerald') {
+    iconTrackStyles = 'bg-accent-emerald/15 text-accent-mint border-accent-emerald/30';
+  } else if (track === 'intel') {
     iconTrackStyles = 'bg-intel-sapphire/15 text-intel-slate border-intel-sapphire/30';
   } else if (track === 'gold') {
     iconTrackStyles = 'bg-accent-gold/15 text-accent-gold border-accent-gold/30';

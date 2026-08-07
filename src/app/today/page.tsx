@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { Target, Clock, Check, CalendarDays, BookOpen, Flame, Play, Pause, RotateCcw, Sparkles } from 'lucide-react';
+import { Target, Clock, Check, BookOpen, Flame, Play, Pause, RotateCcw, Sparkles } from 'lucide-react';
 import { DailyPlanService } from '@/domain/execution/daily/service';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DashboardDTO } from '@/domain/dashboard/types';
@@ -40,7 +40,7 @@ export default function TodayExecutionPage() {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-8">
         <div className="flex items-center space-x-3 text-text-muted font-mono text-xs">
-          <div className="w-4 h-4 rounded-full border-2 border-accent-emerald border-t-transparent animate-spin" />
+          <div className="w-4 h-4 rounded-full border-2 border-intel-slate border-t-transparent animate-spin" />
           <span>Loading Today's Execution Environment...</span>
         </div>
       </div>
@@ -76,13 +76,13 @@ export default function TodayExecutionPage() {
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <h1 className="text-3xl font-serif font-bold text-text-primary">TODAY</h1>
-            <Badge variant="emerald">HPS Execution Hub</Badge>
+            <Badge variant="intel">HPS Execution Hub</Badge>
           </div>
           <p className="text-xs text-text-muted font-mono">
             {dto.todayDate} • Focused Execution Environment (Zero Clutter)
           </p>
         </div>
-        <Badge variant="gold" className="text-xs py-1 px-3">
+        <Badge variant="emerald" className="text-xs py-1 px-3">
           <Flame className="w-3.5 h-3.5 mr-1 text-accent-mint" />
           <span>Consistency Streak: 7 Days</span>
         </Badge>
@@ -94,7 +94,7 @@ export default function TodayExecutionPage() {
           {/* Morning Intention Banner */}
           <Card className="space-y-3 p-6">
             <div className="flex items-center space-x-2">
-              <Sparkles className="w-5 h-5 text-accent-emerald" />
+              <Sparkles className="w-5 h-5 text-intel-slate" />
               <h2 className="text-base font-serif font-bold text-text-primary">Morning Execution Intention</h2>
             </div>
             <input
@@ -102,7 +102,7 @@ export default function TodayExecutionPage() {
               value={morningIntention}
               onChange={(e) => setMorningIntention(e.target.value)}
               placeholder="What is your singular vision for today?"
-              className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
+              className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-intel-slate focus:ring-2 focus:ring-intel-slate transition-all"
             />
           </Card>
 
@@ -110,7 +110,7 @@ export default function TodayExecutionPage() {
           <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-accent-mint" />
+                <Target className="w-5 h-5 text-accent-emerald" />
                 <h2 className="text-lg font-serif font-bold text-text-primary">Today's Priorities (Top 3 MITs)</h2>
               </div>
               <Badge variant="emerald" className="text-[10px]">HPS Priority</Badge>
@@ -128,7 +128,7 @@ export default function TodayExecutionPage() {
                   className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                     mit.done
                       ? 'bg-bg-subtle border-border-subtle text-text-muted line-through'
-                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-accent-emerald'
+                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-border-hover'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
@@ -167,7 +167,7 @@ export default function TodayExecutionPage() {
                   onChange={(e) => setReflection(e.target.value)}
                   placeholder="What went well today? What did you learn?"
                   rows={3}
-                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl p-3 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
+                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl p-3 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-intel-slate focus:ring-2 focus:ring-intel-slate transition-all"
                 />
               </div>
 
@@ -178,7 +178,7 @@ export default function TodayExecutionPage() {
                   value={gratitude}
                   onChange={(e) => setGratitude(e.target.value)}
                   placeholder="What are you grateful for today?"
-                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
+                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-intel-slate focus:ring-2 focus:ring-intel-slate transition-all"
                 />
               </div>
 
@@ -203,7 +203,7 @@ export default function TodayExecutionPage() {
             </div>
 
             <div className="py-6">
-              <div className="text-5xl font-mono font-bold text-accent-mint tracking-wider mb-2">
+              <div className="text-5xl font-mono font-bold text-text-primary tracking-wider mb-2">
                 {formatTimer(timerSeconds)}
               </div>
               <p className="text-xs text-text-muted">High-Focus Execution Block</p>
@@ -245,11 +245,11 @@ export default function TodayExecutionPage() {
             <h3 className="text-sm font-serif font-bold text-text-primary">Today's Time Block Timeline</h3>
             <div className="space-y-2 font-mono text-xs">
               <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">
-                <span className="text-accent-mint font-bold">08:00 - 10:00</span>
+                <span className="text-text-secondary font-bold">08:00 - 10:00</span>
                 <span className="text-text-primary font-sans">Morning Focus Block (SaaS Dashboard)</span>
               </div>
               <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">
-                <span className="text-accent-mint font-bold">11:00 - 12:00</span>
+                <span className="text-text-secondary font-bold">11:00 - 12:00</span>
                 <span className="text-text-primary font-sans">German Goethe B1 Anki Practice</span>
               </div>
               <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">

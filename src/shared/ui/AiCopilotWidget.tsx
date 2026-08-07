@@ -16,7 +16,7 @@ export const AiCopilotWidget: React.FC = () => {
       </div>
 
       <p className="text-xs text-text-secondary leading-relaxed">
-        High cognitive capacity detected. Recommendation: Allocate 90 minutes to <span className="text-accent-mint font-semibold">Anki B1 German Vocabulary</span> before evening rollover ritual.
+        High cognitive capacity detected. Recommendation: Allocate 90 minutes to <span className="text-intel-slate font-semibold">Anki B1 German Vocabulary</span> before evening rollover ritual.
       </p>
 
       <div className="pt-1">
