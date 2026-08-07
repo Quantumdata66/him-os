@@ -1,8 +1,6 @@
 'use client';
 
-import React from 'react';
-import { X } from 'lucide-react';
-import { Card } from './Card';
+import React, { useEffect } from 'react';
 import { Button } from './Button';
 
 interface ModalDrawerProps {
@@ -20,23 +18,42 @@ export const ModalDrawer: React.FC<ModalDrawerProps> = ({
   subtitle,
   children,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <Card goldBorder className="w-full max-w-xl max-h-[90vh] overflow-y-auto space-y-4 bg-[#0D1322] border-gray-700 shadow-2xl">
-        <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 select-none font-sans">
+      <div
+        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity"
+        onClick={onClose}
+      />
+
+      <div className="relative w-full max-w-lg bg-bg-surface border border-border-subtle rounded-[18px] shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border-subtle">
           <div>
-            <h2 className="text-lg font-serif font-bold text-gray-100">{title}</h2>
-            {subtitle && <p className="text-xs text-gray-400 font-mono mt-0.5">{subtitle}</p>}
+            <h2 className="text-sm font-bold text-text-primary tracking-wide">{title}</h2>
+            {subtitle && <p className="text-xs text-text-muted font-mono mt-0.5">{subtitle}</p>}
           </div>
-          <Button variant="ghost" size="sm" onClick={onClose} className="p-1 text-gray-400 hover:text-gray-100">
-            <X className="w-4 h-4" />
+          <Button variant="ghost" size="sm" onClick={onClose} className="p-1.5 text-text-muted hover:text-text-primary">
+            <span className="text-xs font-mono font-bold">✕</span>
           </Button>
         </div>
 
-        <div>{children}</div>
-      </Card>
+        <div className="p-6 max-h-[80vh] overflow-y-auto">{children}</div>
+      </div>
     </div>
   );
 };

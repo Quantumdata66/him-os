@@ -5,7 +5,7 @@ import { Card } from '@/shared/ui/Card';
 import { Button } from '@/shared/ui/Button';
 import { Badge } from '@/shared/ui/Badge';
 import { useRouter } from 'next/navigation';
-import { Download, FileText, Upload, HardDrive, ShieldCheck } from 'lucide-react';
+import { Download, FileText, Upload, HardDrive, Shield } from 'lucide-react';
 import { BackupEngine } from '@/core/backup/backupEngine';
 import { RbacControlWidget } from '@/shared/ui/RbacControlWidget';
 
@@ -46,38 +46,38 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 space-y-6">
-      <Card goldBorder className="w-full max-w-md space-y-6">
+    <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 space-y-6 font-sans">
+      <Card variant="gold" className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-xl bg-[#C9A84C]/20 border border-[#C9A84C]/50 flex items-center justify-center text-[#C9A84C] font-bold text-2xl mx-auto">
+          <div className="w-12 h-12 rounded-xl bg-accent-gold/20 border border-accent-gold/50 flex items-center justify-center text-accent-gold font-bold text-2xl mx-auto">
             H
           </div>
-          <h1 className="text-2xl font-serif font-bold text-gray-100">Project HIM OS Auth</h1>
-          <p className="text-xs text-gray-400">Single-User Operating System • Live Cloud Auth</p>
+          <h1 className="text-2xl font-serif font-bold text-text-primary">Project HIM OS Auth</h1>
+          <p className="text-xs text-text-muted font-mono">Single-User Operating System • Live Cloud Auth</p>
           <Badge variant="gold" className="text-[10px]">Supabase RLS Protected</Badge>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-gray-300">Engineer Email</label>
+            <label className="text-xs font-semibold text-text-secondary">Engineer Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="engineer@projecthim.os"
-              className="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2.5 text-xs text-gray-100 focus:outline-none focus:border-[#C9A84C]"
+              className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3 py-2.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint"
               required
             />
           </div>
 
           <div className="space-y-1">
-            <label className="text-xs font-semibold text-gray-300">Security Key / Password</label>
+            <label className="text-xs font-semibold text-text-secondary">Security Key / Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••••••"
-              className="w-full bg-gray-900 border border-gray-800 rounded-lg px-3 py-2.5 text-xs text-gray-100 focus:outline-none focus:border-[#C9A84C]"
+              className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3 py-2.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint"
               required
             />
           </div>
@@ -87,12 +87,12 @@ export default function LoginPage() {
           </Button>
         </form>
 
-        <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-gray-800">
+        <div className="flex items-center justify-between text-xs text-text-muted pt-2 border-t border-border-subtle">
           <Button variant="outline" size="sm" onClick={() => router.push('/auth/audit')}>
-            <ShieldCheck className="w-3.5 h-3.5 mr-1 text-[#C9A84C]" />
+            <Shield className="w-3.5 h-3.5 mr-1 text-accent-gold" />
             <span>Security Audit Log</span>
           </Button>
-          <a href="/auth/register" className="text-[#C9A84C] hover:underline font-semibold">
+          <a href="/auth/register" className="text-accent-gold hover:underline font-semibold font-mono">
             Create Profile
           </a>
         </div>
@@ -105,9 +105,9 @@ export default function LoginPage() {
 
       {/* System Data Export & Restore Panel */}
       <Card className="w-full max-w-md space-y-4">
-        <div className="flex items-center space-x-2 border-b border-gray-800 pb-3">
-          <HardDrive className="w-4 h-4 text-[#C9A84C]" />
-          <h3 className="text-sm font-serif font-semibold text-gray-100">Data Backup & Portability (v5.0)</h3>
+        <div className="flex items-center space-x-2 border-b border-border-subtle pb-3">
+          <HardDrive className="w-4 h-4 text-accent-gold" />
+          <h3 className="text-sm font-serif font-semibold text-text-primary">Data Backup & Portability (v5.0)</h3>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
@@ -122,7 +122,7 @@ export default function LoginPage() {
         </div>
 
         <div className="pt-2">
-          <label className="w-full p-2 bg-gray-900 border border-dashed border-gray-700 hover:border-gray-500 rounded-lg cursor-pointer flex items-center justify-center space-x-2 text-xs text-gray-400 transition-colors">
+          <label className="w-full p-2 bg-bg-elevated border border-dashed border-border-subtle hover:border-accent-emerald rounded-xl cursor-pointer flex items-center justify-center space-x-2 text-xs text-text-muted transition-colors">
             <Upload className="w-3.5 h-3.5" />
             <span>Restore State from JSON</span>
             <input type="file" accept=".json" onChange={handleFileUpload} className="hidden" />
@@ -130,7 +130,7 @@ export default function LoginPage() {
         </div>
 
         {restoreMessage && (
-          <p className="text-[11px] font-mono text-emerald-400 text-center animate-in fade-in">
+          <p className="text-[11px] font-mono text-accent-mint text-center animate-in fade-in">
             {restoreMessage}
           </p>
         )}

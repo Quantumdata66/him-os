@@ -1,65 +1,67 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --bg-deep-forest: #071A12;
-    --bg-dark-evergreen: #0F2D20;
-    --bg-charcoal-green: #163526;
-    --bg-emerald-slate: #1D4735;
-    --accent-emerald: #22C55E;
-    --accent-mint: #4ADE80;
-    --text-primary: #F9FAFB;
-    --text-secondary: #9CA3AF;
-    --border-color: #2B4D3E;
-  }
+@theme {
+  /* Structural Tokens (Lifted Charcoal) */
+  --color-bg-primary: #0B0F12;
+  --color-bg-surface: #12181C;
+  --color-bg-elevated: #1A2228;
+  --color-bg-subtle: #222C34;
+  --color-border-subtle: #28353D;
+  --color-border-hover: #10B981;
 
-  body {
-    background-color: #071A12;
-    color: #F9FAFB;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
+  /* Identity Tokens (Emerald/Mint Green) */
+  --color-accent-emerald: #10B981;
+  --color-accent-mint: #34D399;
 
-  h1, h2, h3, h4, h5, h6, .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
-  }
+  /* Intelligence Tokens (Executive Sapphire) */
+  --color-intel-sapphire: #4776B4;
+  --color-intel-slate: #6495ED;
 
-  code, pre, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
-  }
+  /* Single Executive Gold Token (1% Max) */
+  --color-accent-gold: #C9A84C;
+
+  /* Semantic Status Tokens */
+  --color-status-success: #10B981;
+  --color-status-warning: #F59E0B;
+  --color-status-danger: #EF4444;
+  --color-status-info: #4776B4;
+
+  /* Neutral Text Tokens */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  --color-text-muted: #6B7280;
+
+  /* Typography Scoping (Decision 002) */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Spatial Grid Spacing Tokens */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
 }
 
-/* Glassmorphism & Subtle Forest Glow Utility Classes */
-.forest-card {
-  background-color: #163526;
-  border: 1px solid #2B4D3E;
-  border-radius: 18px;
-  transition: all 0.2s ease-in-out;
-}
-
-.forest-card:hover {
-  border-color: #22C55E;
-  box-shadow: 0 0 20px -4px rgba(34, 197, 94, 0.15);
-}
-
-.forest-glow {
-  box-shadow: 0 0 25px -5px rgba(34, 197, 94, 0.2);
-}
-
-/* Skeleton Loaders (HPS Chapter 7.12 & 9.18) */
-.skeleton {
-  background: linear-gradient(90deg, #163526 25%, #1D4735 50%, #163526 75%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s infinite;
-  border-radius: 8px;
-}
-
-@keyframes skeleton-loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
+:root {
+  --bg-primary: #0B0F12;
+  --bg-surface: #12181C;
+  --bg-elevated: #1A2228;
+  --bg-subtle: #222C34;
+  --border-subtle: #28353D;
+  --accent-emerald: #10B981;
+  --accent-mint: #34D399;
+  --intel-sapphire: #4776B4;
+  --intel-slate: #6495ED;
+  --accent-gold: #C9A84C;
+  --text-primary: #F9FAFB;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --max-viewport-width: 1440px;
 }
 
 /* Custom Scrollbars */
@@ -67,36 +69,50 @@
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #071A12;
+  background: var(--bg-primary);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #1D4735;
-  border-radius: 3px;
+  background: var(--border-subtle);
+  border-radius: 4px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #22C55E;
+  background: var(--accent-emerald);
 }
 
-/* Print Stylesheet for Executive Exporter & Invoices */
-@media print {
-  body {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-  }
-  .print\:hidden {
-    display: none !important;
-  }
-  .print\:border-none {
-    border: none !important;
-  }
-  .print\:shadow-none {
-    box-shadow: none !important;
-  }
-  .print\:p-0 {
-    padding: 0 !important;
-  }
+/* Typography Hierarchy Enforcement (Decision 002) */
+h1 {
+  font-family: var(--font-serif);
+}
+
+h2, h3, h4, h5, h6, body, button, input, select, textarea {
+  font-family: var(--font-sans);
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Reusable Executive Utilities */
+.forest-card {
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.forest-card:hover {
+  border-color: var(--accent-emerald);
+}
+
+.forest-glow {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+}
+
+.intel-glow {
+  box-shadow: 0 0 25px -5px rgba(71, 118, 180, 0.15);
+}
+
+.gold-glow {
+  box-shadow: 0 0 25px -5px rgba(201, 168, 76, 0.15);
 }

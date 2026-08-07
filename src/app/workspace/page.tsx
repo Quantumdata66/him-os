@@ -60,8 +60,6 @@ export default function WorkspacePage() {
   const [title, setTitle] = useState<string>(INITIAL_DOCS[0].title);
   const [previewMode, setPreviewMode] = useState<'split' | 'edit' | 'preview'>('split');
 
-  const activeDoc = docs.find((d) => d.id === activeDocId);
-
   const handleSelectDoc = (doc: DocumentNote) => {
     setActiveDocId(doc.id);
     setTitle(doc.title);
@@ -113,7 +111,7 @@ export default function WorkspacePage() {
         return (
           <span
             key={idx}
-            className="inline-flex items-center px-2 py-0.5 rounded bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#C9A84C] font-semibold cursor-pointer text-xs mx-0.5"
+            className="inline-flex items-center px-2 py-0.5 rounded-lg bg-intel-sapphire/20 border border-intel-sapphire/40 text-intel-slate font-semibold cursor-pointer text-xs mx-0.5 font-mono"
             onClick={() => alert(`Backlink Target: ${linkTitle}`)}
           >
             🔗 {linkTitle}
@@ -125,35 +123,35 @@ export default function WorkspacePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 font-sans select-none">
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-800">
+      <div className="flex items-center justify-between pb-4 border-b border-border-subtle">
         <div>
           <div className="flex items-center space-x-3 mb-1">
-            <h1 className="text-3xl font-serif font-bold text-gray-100">Notion / Obsidian Workspace Studio</h1>
-            <Badge variant="gold">v3.0 Companion</Badge>
+            <h1 className="text-3xl font-serif font-bold text-text-primary">Notion / Obsidian Workspace Studio</h1>
+            <Badge variant="intel">v3.0 Companion</Badge>
           </div>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-text-muted font-mono">
             Split-pane Markdown editor with [[WikiLink]] backlinking and global spotlight search.
           </p>
         </div>
         <div className="flex items-center space-x-3">
-          <div className="bg-gray-900 border border-gray-800 rounded-lg p-1 flex space-x-1 text-xs font-mono">
+          <div className="bg-bg-surface border border-border-subtle rounded-xl p-1 flex space-x-1 text-xs font-mono">
             <button
               onClick={() => setPreviewMode('split')}
-              className={`px-3 py-1 rounded transition-colors ${previewMode === 'split' ? 'bg-[#C9A84C] text-gray-950 font-bold' : 'text-gray-400'}`}
+              className={`px-3 py-1 rounded-lg transition-colors ${previewMode === 'split' ? 'bg-accent-emerald text-bg-primary font-bold' : 'text-text-muted'}`}
             >
               Split View
             </button>
             <button
               onClick={() => setPreviewMode('edit')}
-              className={`px-3 py-1 rounded transition-colors ${previewMode === 'edit' ? 'bg-[#C9A84C] text-gray-950 font-bold' : 'text-gray-400'}`}
+              className={`px-3 py-1 rounded-lg transition-colors ${previewMode === 'edit' ? 'bg-accent-emerald text-bg-primary font-bold' : 'text-text-muted'}`}
             >
               Editor Only
             </button>
             <button
               onClick={() => setPreviewMode('preview')}
-              className={`px-3 py-1 rounded transition-colors ${previewMode === 'preview' ? 'bg-[#C9A84C] text-gray-950 font-bold' : 'text-gray-400'}`}
+              className={`px-3 py-1 rounded-lg transition-colors ${previewMode === 'preview' ? 'bg-accent-emerald text-bg-primary font-bold' : 'text-text-muted'}`}
             >
               Preview Only
             </button>
@@ -169,7 +167,7 @@ export default function WorkspacePage() {
         {/* Document Sidebar List */}
         <Card className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-serif font-semibold text-gray-100">Documents ({docs.length})</h3>
+            <h3 className="text-sm font-serif font-semibold text-text-primary">Documents ({docs.length})</h3>
             <Button variant="ghost" size="sm" onClick={handleNewDoc}>
               + New Doc
             </Button>
@@ -180,18 +178,18 @@ export default function WorkspacePage() {
               <div
                 key={doc.id}
                 onClick={() => handleSelectDoc(doc)}
-                className={`p-3 rounded-lg border transition-all cursor-pointer ${
+                className={`p-3 rounded-xl border transition-all cursor-pointer ${
                   doc.id === activeDocId
-                    ? 'bg-[#C9A84C]/15 border-[#C9A84C] text-gray-100'
-                    : 'bg-gray-900/60 border-gray-800 text-gray-400 hover:border-gray-700'
+                    ? 'bg-intel-sapphire/20 border-intel-slate text-text-primary'
+                    : 'bg-bg-elevated border-border-subtle text-text-muted hover:border-accent-emerald'
                 }`}
               >
                 <p className="text-xs font-semibold truncate">{doc.title}</p>
                 <div className="flex justify-between items-center mt-1">
-                  <Badge variant="purple" className="text-[8px] uppercase">
+                  <Badge variant="intel" className="text-[8px] uppercase">
                     {doc.category}
                   </Badge>
-                  <span className="text-[9px] font-mono text-gray-500">{doc.updatedAt}</span>
+                  <span className="text-[9px] font-mono text-text-muted">{doc.updatedAt}</span>
                 </div>
               </div>
             ))}
@@ -199,11 +197,11 @@ export default function WorkspacePage() {
 
           {/* Backlinks Explorer */}
           {backlinks.length > 0 && (
-            <div className="pt-3 border-t border-gray-800/80 space-y-2">
-              <span className="text-xs font-semibold text-gray-300">Detected Backlinks ({backlinks.length})</span>
+            <div className="pt-3 border-t border-border-subtle space-y-2">
+              <span className="text-xs font-semibold text-text-secondary">Detected Backlinks ({backlinks.length})</span>
               <div className="space-y-1">
                 {backlinks.map((link, idx) => (
-                  <div key={idx} className="p-2 bg-gray-900 rounded border border-gray-800 text-[10px] text-[#C9A84C] font-mono">
+                  <div key={idx} className="p-2 bg-bg-subtle rounded-xl border border-border-subtle text-[10px] text-intel-slate font-mono">
                     🔗 [[{link}]]
                   </div>
                 ))}
@@ -213,24 +211,24 @@ export default function WorkspacePage() {
         </Card>
 
         {/* Workspace Canvas (Split / Edit / Preview) */}
-        <Card goldBorder className="lg:col-span-3 space-y-4">
+        <Card variant="intel" className="lg:col-span-3 space-y-4">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full bg-transparent text-xl font-serif font-bold text-gray-100 border-b border-gray-800 pb-2 focus:outline-none focus:border-[#C9A84C]"
+            className="w-full bg-transparent text-xl font-serif font-bold text-text-primary border-b border-border-subtle pb-2 focus:outline-none focus:border-accent-emerald"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[500px]">
             {/* Editor Pane */}
             {(previewMode === 'split' || previewMode === 'edit') && (
               <div className={`space-y-2 ${previewMode === 'edit' ? 'md:col-span-2' : ''}`}>
-                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-wider block">Markdown Source Editor</span>
+                <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider block">Markdown Source Editor</span>
                 <textarea
                   rows={22}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  className="w-full h-full bg-gray-950 border border-gray-800 rounded-lg p-4 text-xs font-mono text-gray-200 focus:outline-none focus:border-[#C9A84C] leading-relaxed resize-none"
+                  className="w-full h-full bg-bg-surface border border-border-subtle rounded-xl p-4 text-xs font-mono text-text-primary focus:outline-none focus:border-accent-emerald leading-relaxed resize-none"
                 />
               </div>
             )}
@@ -238,8 +236,8 @@ export default function WorkspacePage() {
             {/* Preview Pane */}
             {(previewMode === 'split' || previewMode === 'preview') && (
               <div className={`space-y-2 ${previewMode === 'preview' ? 'md:col-span-2' : ''}`}>
-                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-wider block">Live Render Preview</span>
-                <div className="w-full h-full bg-gray-900/60 border border-gray-800 rounded-lg p-4 text-xs text-gray-300 font-sans leading-relaxed overflow-y-auto whitespace-pre-wrap">
+                <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider block">Live Render Preview</span>
+                <div className="w-full h-full bg-bg-surface border border-border-subtle rounded-xl p-4 text-xs text-text-primary font-sans leading-relaxed overflow-y-auto whitespace-pre-wrap">
                   {renderFormattedMarkdown(content)}
                 </div>
               </div>

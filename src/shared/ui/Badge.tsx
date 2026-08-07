@@ -1,30 +1,64 @@
-import React from 'react';
-import { cn } from './cn';
+'use client';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'gold' | 'green' | 'blue' | 'purple' | 'gray' | 'red';
-  className?: string;
+import React from 'react';
+
+export type BadgeVariant =
+  | 'default'
+  | 'emerald'
+  | 'mint'
+  | 'intel'
+  | 'gold'
+  | 'warning'
+  | 'danger'
+  | 'green'
+  | 'blue'
+  | 'purple'
+  | 'gray'
+  | 'red';
+
+interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: BadgeVariant;
+  size?: 'sm' | 'md';
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   children,
-  variant = 'gold',
   className = '',
+  variant = 'default',
+  size = 'sm',
+  ...props
 }) => {
-  const baseStyles = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium transition-colors select-none';
+  const baseStyles = 'inline-flex items-center font-mono font-semibold rounded-md uppercase tracking-wider select-none';
 
-  const variants = {
-    gold: 'bg-[#C9A84C]/15 text-[#C9A84C] border border-[#C9A84C]/30',
-    green: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
-    blue: 'bg-blue-500/15 text-blue-400 border border-blue-500/30',
-    purple: 'bg-purple-500/15 text-purple-400 border border-purple-500/30',
-    gray: 'bg-gray-800 text-gray-300 border border-gray-700/60',
-    red: 'bg-rose-500/15 text-rose-400 border border-rose-500/30',
+  const sizeStyles = {
+    sm: 'px-1.5 py-0.5 text-[9px]',
+    md: 'px-2 py-1 text-[10px]',
+  };
+
+  // Map legacy color variant aliases
+  let effectiveVariant = variant;
+  if (variant === 'green') effectiveVariant = 'emerald';
+  if (variant === 'blue' || variant === 'purple') effectiveVariant = 'intel';
+  if (variant === 'gray') effectiveVariant = 'default';
+  if (variant === 'red') effectiveVariant = 'danger';
+
+  const variantStyles = {
+    default: 'bg-bg-subtle text-text-secondary border border-border-subtle',
+    emerald: 'bg-accent-emerald/20 text-accent-mint border border-accent-emerald/30',
+    mint: 'bg-accent-mint/20 text-accent-mint border border-accent-mint/30',
+    intel: 'bg-intel-sapphire/20 text-intel-slate border border-intel-sapphire/30',
+    gold: 'bg-accent-gold/20 text-accent-gold border border-accent-gold/40',
+    warning: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+    danger: 'bg-red-500/20 text-red-400 border border-red-500/30',
+    green: 'bg-accent-emerald/20 text-accent-mint border border-accent-emerald/30',
+    blue: 'bg-intel-sapphire/20 text-intel-slate border border-intel-sapphire/30',
+    purple: 'bg-intel-sapphire/20 text-intel-slate border border-intel-sapphire/30',
+    gray: 'bg-bg-subtle text-text-secondary border border-border-subtle',
+    red: 'bg-red-500/20 text-red-400 border border-red-500/30',
   };
 
   return (
-    <span className={cn(baseStyles, variants[variant], className)}>
+    <span className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[effectiveVariant]} ${className}`} {...props}>
       {children}
     </span>
   );

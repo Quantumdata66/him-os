@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/shared/ui/Card';
 import { Badge } from '@/shared/ui/Badge';
 import { Button } from '@/shared/ui/Button';
-import { Target, Clock, Check, CalendarDays, BookOpen, Flame, Play, Pause, RotateCcw, Sparkles, AlertCircle } from 'lucide-react';
+import { Target, Clock, Check, CalendarDays, BookOpen, Flame, Play, Pause, RotateCcw, Sparkles } from 'lucide-react';
 import { DailyPlanService } from '@/domain/execution/daily/service';
 import { DashboardService } from '@/domain/dashboard/service';
 import { DashboardDTO } from '@/domain/dashboard/types';
@@ -39,8 +39,8 @@ export default function TodayExecutionPage() {
   if (!dto) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-8">
-        <div className="flex items-center space-x-3 text-gray-400 font-mono text-xs">
-          <div className="w-4 h-4 rounded-full border-2 border-[#22C55E] border-t-transparent animate-spin" />
+        <div className="flex items-center space-x-3 text-text-muted font-mono text-xs">
+          <div className="w-4 h-4 rounded-full border-2 border-accent-emerald border-t-transparent animate-spin" />
           <span>Loading Today's Execution Environment...</span>
         </div>
       </div>
@@ -70,20 +70,20 @@ export default function TodayExecutionPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none">
+    <div className="space-y-8 max-w-6xl mx-auto pb-12 select-none font-sans">
       {/* Header */}
-      <div className="flex items-center justify-between pb-6 border-b border-[#2B4D3E]">
+      <div className="flex items-center justify-between pb-6 border-b border-border-subtle">
         <div>
           <div className="flex items-center space-x-3 mb-1">
-            <h1 className="text-3xl font-serif font-bold text-gray-100">TODAY</h1>
-            <Badge variant="green">HPS Execution Hub</Badge>
+            <h1 className="text-3xl font-serif font-bold text-text-primary">TODAY</h1>
+            <Badge variant="emerald">HPS Execution Hub</Badge>
           </div>
-          <p className="text-xs text-gray-400 font-mono">
+          <p className="text-xs text-text-muted font-mono">
             {dto.todayDate} • Focused Execution Environment (Zero Clutter)
           </p>
         </div>
         <Badge variant="gold" className="text-xs py-1 px-3">
-          <Flame className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+          <Flame className="w-3.5 h-3.5 mr-1 text-accent-mint" />
           <span>Consistency Streak: 7 Days</span>
         </Badge>
       </div>
@@ -92,17 +92,17 @@ export default function TodayExecutionPage() {
         {/* Left Column: Morning Planning & MIT Outcomes */}
         <div className="lg:col-span-7 space-y-6">
           {/* Morning Intention Banner */}
-          <Card goldBorder className="space-y-3 p-6">
+          <Card className="space-y-3 p-6">
             <div className="flex items-center space-x-2">
-              <Sparkles className="w-5 h-5 text-[#22C55E]" />
-              <h2 className="text-base font-serif font-bold text-gray-100">Morning Execution Intention</h2>
+              <Sparkles className="w-5 h-5 text-accent-emerald" />
+              <h2 className="text-base font-serif font-bold text-text-primary">Morning Execution Intention</h2>
             </div>
             <input
               type="text"
               value={morningIntention}
               onChange={(e) => setMorningIntention(e.target.value)}
               placeholder="What is your singular vision for today?"
-              className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl px-3.5 py-2.5 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+              className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2.5 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
             />
           </Card>
 
@@ -110,10 +110,10 @@ export default function TodayExecutionPage() {
           <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-[#22C55E]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Today's Priorities (Top 3 MITs)</h2>
+                <Target className="w-5 h-5 text-accent-mint" />
+                <h2 className="text-lg font-serif font-bold text-text-primary">Today's Priorities (Top 3 MITs)</h2>
               </div>
-              <Badge variant="green" className="text-[10px]">HPS Priority</Badge>
+              <Badge variant="emerald" className="text-[10px]">HPS Priority</Badge>
             </div>
 
             <div className="space-y-3">
@@ -127,21 +127,21 @@ export default function TodayExecutionPage() {
                   onClick={() => handleMitToggle(mit.num)}
                   className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                     mit.done
-                      ? 'bg-[#0F2D20] border-[#22C55E]/40 text-gray-400 line-through'
-                      : 'bg-[#163526] border-[#2B4D3E] text-gray-200 hover:border-[#22C55E]'
+                      ? 'bg-bg-subtle border-border-subtle text-text-muted line-through'
+                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-accent-emerald'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <div
                       className={`w-4 h-4 rounded border flex items-center justify-center text-[10px] transition-colors ${
-                        mit.done ? 'bg-[#22C55E] border-[#22C55E] text-[#071A12] font-bold' : 'border-gray-600'
+                        mit.done ? 'bg-accent-emerald border-accent-mint text-bg-primary font-bold' : 'border-border-subtle'
                       }`}
                     >
                       {mit.done && <Check className="w-3 h-3 stroke-[3]" />}
                     </div>
                     <span className="text-xs font-semibold">{mit.text}</span>
                   </div>
-                  <Badge variant={mit.done ? 'green' : 'gray'} className="text-[9px]">
+                  <Badge variant={mit.done ? 'emerald' : 'default'} className="text-[9px]">
                     {mit.done ? 'Completed' : `MIT #${mit.num}`}
                   </Badge>
                 </div>
@@ -153,32 +153,32 @@ export default function TodayExecutionPage() {
           <Card className="space-y-4 p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                <BookOpen className="w-5 h-5 text-[#4ADE80]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Evening Reflection & Gratitude</h2>
+                <BookOpen className="w-5 h-5 text-intel-slate" />
+                <h2 className="text-lg font-serif font-bold text-text-primary">Evening Reflection & Gratitude</h2>
               </div>
-              <Badge variant="blue" className="text-[10px]">HPS Ritual</Badge>
+              <Badge variant="intel" className="text-[10px]">HPS Ritual</Badge>
             </div>
 
             <form onSubmit={handleSavePlan} className="space-y-3">
               <div>
-                <label className="text-xs font-medium text-gray-400 block mb-1">Evening Reflection</label>
+                <label className="text-xs font-medium text-text-muted block mb-1">Evening Reflection</label>
                 <textarea
                   value={reflection}
                   onChange={(e) => setReflection(e.target.value)}
                   placeholder="What went well today? What did you learn?"
                   rows={3}
-                  className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl p-3 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl p-3 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
                 />
               </div>
 
               <div>
-                <label className="text-xs font-medium text-gray-400 block mb-1">Daily Gratitude</label>
+                <label className="text-xs font-medium text-text-muted block mb-1">Daily Gratitude</label>
                 <input
                   type="text"
                   value={gratitude}
                   onChange={(e) => setGratitude(e.target.value)}
                   placeholder="What are you grateful for today?"
-                  className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl px-3.5 py-2 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
+                  className="w-full bg-bg-elevated border border-border-subtle rounded-xl px-3.5 py-2 text-xs text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all"
                 />
               </div>
 
@@ -196,17 +196,17 @@ export default function TodayExecutionPage() {
           <Card className="space-y-4 text-center p-6">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-[#22C55E]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Deep Work Session</h2>
+                <Clock className="w-5 h-5 text-intel-slate" />
+                <h2 className="text-lg font-serif font-bold text-text-primary">Deep Work Session</h2>
               </div>
-              <Badge variant="green" className="text-[10px]">25m Focus Block</Badge>
+              <Badge variant="intel" className="text-[10px]">25m Focus Block</Badge>
             </div>
 
             <div className="py-6">
-              <div className="text-5xl font-mono font-bold text-[#4ADE80] tracking-wider mb-2">
+              <div className="text-5xl font-mono font-bold text-accent-mint tracking-wider mb-2">
                 {formatTimer(timerSeconds)}
               </div>
-              <p className="text-xs text-gray-400">High-Focus Execution Block</p>
+              <p className="text-xs text-text-muted">High-Focus Execution Block</p>
             </div>
 
             <div className="flex space-x-2">
@@ -242,19 +242,19 @@ export default function TodayExecutionPage() {
 
           {/* Time Blocks Overview */}
           <Card className="space-y-3 p-6">
-            <h3 className="text-sm font-serif font-bold text-gray-200">Today's Time Block Timeline</h3>
+            <h3 className="text-sm font-serif font-bold text-text-primary">Today's Time Block Timeline</h3>
             <div className="space-y-2 font-mono text-xs">
-              <div className="p-2.5 rounded-lg bg-[#071A12] border border-[#2B4D3E] flex justify-between items-center">
-                <span className="text-emerald-400 font-bold">08:00 - 10:00</span>
-                <span className="text-gray-200 font-sans">Morning Focus Block (SaaS Dashboard)</span>
+              <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">
+                <span className="text-accent-mint font-bold">08:00 - 10:00</span>
+                <span className="text-text-primary font-sans">Morning Focus Block (SaaS Dashboard)</span>
               </div>
-              <div className="p-2.5 rounded-lg bg-[#071A12] border border-[#2B4D3E] flex justify-between items-center">
-                <span className="text-[#4ADE80] font-bold">11:00 - 12:00</span>
-                <span className="text-gray-200 font-sans">German Goethe B1 Anki Practice</span>
+              <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">
+                <span className="text-accent-mint font-bold">11:00 - 12:00</span>
+                <span className="text-text-primary font-sans">German Goethe B1 Anki Practice</span>
               </div>
-              <div className="p-2.5 rounded-lg bg-[#071A12] border border-[#2B4D3E] flex justify-between items-center">
-                <span className="text-purple-400 font-bold">14:00 - 16:00</span>
-                <span className="text-gray-200 font-sans">Deep Work Code Architecture Review</span>
+              <div className="p-2.5 rounded-xl bg-bg-elevated border border-border-subtle flex justify-between items-center">
+                <span className="text-intel-slate font-bold">14:00 - 16:00</span>
+                <span className="text-text-primary font-sans">Deep Work Code Architecture Review</span>
               </div>
             </div>
           </Card>

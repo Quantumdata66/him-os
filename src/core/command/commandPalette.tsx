@@ -2,181 +2,125 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Home, CalendarDays, Hammer, GraduationCap, TrendingUp, Brain, RotateCcw, Search } from 'lucide-react';
+import {
+  Search,
+  Home,
+  CalendarDays,
+  Hammer,
+  GraduationCap,
+  TrendingUp,
+  Brain,
+  RotateCcw,
+} from 'lucide-react';
 
 interface CommandItem {
   id: string;
   title: string;
   category: string;
-  shortcut?: string;
+  shortcut: string;
+  href: string;
   icon: React.ElementType;
-  action: () => void;
 }
 
+const COMMAND_ITEMS: CommandItem[] = [
+  { id: 'c1', title: 'Go to HOME (Dashboard)', category: 'Canonical Hub', shortcut: 'Alt+1', href: '/dashboard', icon: Home },
+  { id: 'c2', title: 'Go to TODAY Focus', category: 'Canonical Hub', shortcut: 'Alt+2', href: '/today', icon: CalendarDays },
+  { id: 'c3', title: 'Go to BUILD Engine', category: 'Canonical Hub', shortcut: 'Alt+3', href: '/build', icon: Hammer },
+  { id: 'c4', title: 'Go to LEARN System', category: 'Canonical Hub', shortcut: 'Alt+4', href: '/learn', icon: GraduationCap },
+  { id: 'c5', title: 'Go to GROW Finance', category: 'Canonical Hub', shortcut: 'Alt+5', href: '/grow', icon: TrendingUp },
+  { id: 'c6', title: 'Go to THINK Brain', category: 'Canonical Hub', shortcut: 'Alt+6', href: '/think', icon: Brain },
+  { id: 'c7', title: 'Go to REVIEW Rituals', category: 'Canonical Hub', shortcut: 'Alt+7', href: '/review', icon: RotateCcw },
+];
+
 export const CommandPalette: React.FC = () => {
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      if (e.key === 'k' && e.ctrlKey) {
         e.preventDefault();
-        setOpen((prev) => !prev);
+        setIsOpen((prev) => !prev);
       }
       if (e.key === 'Escape') {
-        setOpen(false);
+        setIsOpen(false);
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const commands: CommandItem[] = [
-    {
-      id: 'cmd-home',
-      title: 'Go to HOME (Daily Command Center)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+H',
-      icon: Home,
-      action: () => {
-        router.push('/dashboard');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-today',
-      title: 'Go to TODAY (Execution Hub)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+T',
-      icon: CalendarDays,
-      action: () => {
-        router.push('/today');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-build',
-      title: 'Go to BUILD (Creation & Career)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+B',
-      icon: Hammer,
-      action: () => {
-        router.push('/build');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-learn',
-      title: 'Go to LEARN (Ecosystem & German B1)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+L',
-      icon: GraduationCap,
-      action: () => {
-        router.push('/learn');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-grow',
-      title: 'Go to GROW (Net Worth, Finance & Ventures)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+G',
-      icon: TrendingUp,
-      action: () => {
-        router.push('/grow');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-think',
-      title: 'Go to THINK (Second Brain & Graph)',
-      category: 'HPS Destination',
-      icon: Brain,
-      action: () => {
-        router.push('/think');
-        setOpen(false);
-      },
-    },
-    {
-      id: 'cmd-review',
-      title: 'Go to REVIEW (Rituals & Rollover)',
-      category: 'HPS Destination',
-      shortcut: 'Ctrl+R',
-      icon: RotateCcw,
-      action: () => {
-        router.push('/review');
-        setOpen(false);
-      },
-    },
-  ];
+  const filteredItems = COMMAND_ITEMS.filter(
+    (item) =>
+      item.title.toLowerCase().includes(query.toLowerCase()) ||
+      item.category.toLowerCase().includes(query.toLowerCase())
+  );
 
-  const filteredCommands =
-    search.trim() === ''
-      ? commands
-      : commands.filter(
-          (cmd) =>
-            cmd.title.toLowerCase().includes(search.toLowerCase()) ||
-            cmd.category.toLowerCase().includes(search.toLowerCase())
-        );
+  const handleSelect = (href: string) => {
+    router.push(href);
+    setIsOpen(false);
+    setQuery('');
+  };
 
-  if (!open) return null;
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-start justify-center pt-24 p-4 select-none">
-      <div className="bg-[#163526] border border-[#2B4D3E] rounded-2xl w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-        {/* Search Header */}
-        <div className="flex items-center px-4 py-3 border-b border-[#2B4D3E] bg-[#071A12]/80">
-          <Search className="w-4 h-4 text-[#4ADE80] mr-3" />
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 select-none font-sans">
+      <div
+        className="fixed inset-0 bg-black/75 backdrop-blur-sm transition-opacity duration-150"
+        onClick={() => setIsOpen(false)}
+      />
+
+      <div className="relative w-full max-w-xl bg-bg-surface border border-border-subtle rounded-[18px] shadow-2xl overflow-hidden z-10 animate-in fade-in zoom-in-95 duration-150 space-y-2 p-2">
+        <div className="flex items-center space-x-3 px-3 py-2 border-b border-border-subtle">
+          <Search className="w-4 h-4 text-text-muted shrink-0" />
           <input
             type="text"
-            placeholder="Search HIM OS (Ctrl+K)..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-transparent text-sm text-[#F9FAFB] placeholder-gray-500 focus:outline-none"
+            placeholder="Type a command or search hub destinations..."
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setSelectedIndex(0);
+            }}
             autoFocus
+            className="w-full bg-transparent text-text-primary placeholder:text-text-muted text-xs sm:text-sm focus:outline-none"
           />
-          <span className="text-[10px] bg-[#1D4735] text-gray-400 px-2 py-0.5 rounded font-mono border border-[#2B4D3E]">
+          <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-bg-subtle text-text-muted border border-border-subtle">
             ESC
-          </span>
+          </kbd>
         </div>
 
-        {/* Command Items List */}
-        <div className="max-h-80 overflow-y-auto p-2 space-y-1">
-          {filteredCommands.length > 0 ? (
-            filteredCommands.map((cmd) => {
-              const Icon = cmd.icon;
+        <div className="max-h-80 overflow-y-auto space-y-1 p-1">
+          {filteredItems.length === 0 ? (
+            <p className="text-xs text-text-muted text-center py-6 font-sans">No matching commands found.</p>
+          ) : (
+            filteredItems.map((item, idx) => {
+              const Icon = item.icon;
+              const isSelected = idx === selectedIndex;
               return (
-                <div
-                  key={cmd.id}
-                  onClick={cmd.action}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-gray-200 hover:bg-[#22C55E]/20 hover:text-[#4ADE80] cursor-pointer transition-colors"
+                <button
+                  key={item.id}
+                  onClick={() => handleSelect(item.href)}
+                  onMouseEnter={() => setSelectedIndex(idx)}
+                  className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 ${
+                    isSelected
+                      ? 'bg-bg-elevated text-accent-mint font-semibold border border-accent-emerald/30'
+                      : 'text-text-secondary hover:text-text-primary hover:bg-bg-subtle'
+                  }`}
                 >
-                  <div className="flex items-center space-x-3">
-                    <Icon className="w-4 h-4 text-[#22C55E]" />
-                    <div>
-                      <p className="font-serif">{cmd.title}</p>
-                      <p className="text-[10px] text-gray-400 font-sans">{cmd.category}</p>
-                    </div>
+                  <div className="flex items-center space-x-3 min-w-0">
+                    <Icon className={`w-4 h-4 shrink-0 ${isSelected ? 'text-accent-mint' : 'text-text-muted'}`} />
+                    <span className="text-xs truncate">{item.title}</span>
                   </div>
-                  {cmd.shortcut && (
-                    <span className="text-[10px] font-mono text-gray-400 bg-[#071A12] px-2 py-0.5 rounded border border-[#2B4D3E]">
-                      {cmd.shortcut}
-                    </span>
-                  )}
-                </div>
+                  <kbd className="text-[10px] font-mono text-text-muted px-1.5 py-0.5 rounded bg-bg-subtle border border-border-subtle shrink-0">
+                    {item.shortcut}
+                  </kbd>
+                </button>
               );
             })
-          ) : (
-            <div className="p-4 text-center text-xs text-gray-400">No matching destinations found.</div>
           )}
-        </div>
-
-        {/* Footer */}
-        <div className="px-4 py-2.5 border-t border-[#2B4D3E] bg-[#071A12]/60 flex justify-between items-center text-[10px] text-gray-400 font-mono">
-          <span>HPS Spotlight Search</span>
-          <span>Use ↑↓ to navigate, Enter to select</span>
         </div>
       </div>
     </div>

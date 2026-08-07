@@ -3,38 +3,40 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
+  variant?: 'primary' | 'outline' | 'secondary' | 'ghost' | 'intel' | 'danger';
   size?: 'sm' | 'md' | 'lg';
-  children: React.ReactNode;
 }
 
 export const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
-  size = 'md',
   children,
   className = '',
+  variant = 'primary',
+  size = 'md',
+  disabled,
   ...props
 }) => {
   const baseStyles =
-    'inline-flex items-center justify-center font-medium rounded-[12px] transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:pointer-events-none select-none cursor-pointer';
-
-  const variantStyles = {
-    primary: 'bg-[#22C55E] text-[#071A12] font-bold hover:bg-[#4ADE80] shadow-md shadow-[#22C55E]/20',
-    secondary: 'bg-[#1D4735] text-[#F9FAFB] hover:bg-[#22C55E]/20 border border-[#2B4D3E]',
-    outline: 'border border-[#2B4D3E] text-gray-200 hover:border-[#22C55E] hover:text-[#4ADE80] bg-transparent',
-    ghost: 'text-gray-400 hover:text-[#F9FAFB] hover:bg-[#1D4735]/50 bg-transparent',
-    danger: 'bg-red-600 text-white hover:bg-red-700',
-  };
+    'inline-flex items-center justify-center font-sans font-semibold rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-accent-mint disabled:opacity-50 disabled:pointer-events-none select-none active:scale-[0.98]';
 
   const sizeStyles = {
-    sm: 'px-3 py-1.5 text-xs',
-    md: 'px-4 py-2 text-sm',
-    lg: 'px-6 py-3 text-base',
+    sm: 'px-3 py-1.5 text-xs space-x-1.5',
+    md: 'px-4 py-2 text-xs sm:text-sm space-x-2',
+    lg: 'px-6 py-3 text-sm font-bold space-x-2.5',
+  };
+
+  const variantStyles = {
+    primary: 'bg-accent-emerald text-bg-primary hover:bg-accent-emerald/90 shadow-sm',
+    outline: 'bg-bg-elevated border border-border-subtle text-text-primary hover:border-accent-emerald hover:bg-bg-subtle',
+    secondary: 'bg-bg-subtle text-text-primary hover:bg-bg-elevated border border-transparent',
+    ghost: 'bg-transparent text-text-secondary hover:text-text-primary hover:bg-bg-subtle',
+    intel: 'bg-intel-sapphire text-white hover:bg-intel-slate focus:ring-intel-slate shadow-sm',
+    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-400 shadow-sm',
   };
 
   return (
     <button
-      className={`${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      disabled={disabled}
       {...props}
     >
       {children}

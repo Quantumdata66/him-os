@@ -1,99 +1,93 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Plus, X, Check, Target, BookOpen, Wallet, Flame, Briefcase } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Plus, Check } from 'lucide-react';
 import { ModalDrawer } from './ModalDrawer';
 import { Button } from './Button';
 
 export const QuickCaptureModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [type, setType] = useState<'task' | 'note' | 'expense' | 'habit'>('task');
+  const [type, setType] = useState<'task' | 'note' | 'decision'>('task');
   const [title, setTitle] = useState('');
-  const [saved, setSaved] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleCapture = (e: React.FormEvent) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'c' && e.ctrlKey && e.shiftKey) {
+        e.preventDefault();
+        setIsOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-
-    setSaved(true);
+    setSubmitted(true);
     setTimeout(() => {
       setTitle('');
-      setSaved(false);
+      setSubmitted(false);
       setIsOpen(false);
-    }, 800);
+    }, 600);
   };
 
   return (
     <>
-      {/* Persistent Floating Action Button (+) */}
+      {/* Mobile FAB Trigger */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full bg-[#22C55E] text-[#071A12] flex items-center justify-center font-bold shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 gold-glow cursor-pointer"
-        title="Global Quick Capture (+)"
+        aria-label="Universal Quick Capture (Ctrl+Shift+C)"
+        className="lg:hidden fixed bottom-6 right-6 z-40 p-3.5 rounded-full bg-accent-emerald text-bg-primary shadow-xl hover:bg-accent-mint focus:outline-none focus:ring-2 focus:ring-accent-mint active:scale-95 transition-all duration-150"
       >
-        <Plus className="w-6 h-6 stroke-[3]" />
+        <Plus className="w-5 h-5 font-bold" />
       </button>
 
-      {/* Quick Capture Drawer Modal */}
       <ModalDrawer
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        title="Global Quick Capture"
-        subtitle="Capture first. Organize later."
+        title="Universal Executive Quick Capture"
+        subtitle="Shortcut: Ctrl+Shift+C"
       >
-        <form onSubmit={handleCapture} className="space-y-4 font-sans">
-          <div className="grid grid-cols-4 gap-2">
-            {[
-              { id: 'task', label: 'Task / MIT', icon: Target },
-              { id: 'note', label: 'Note / Idea', icon: BookOpen },
-              { id: 'expense', label: 'Expense', icon: Wallet },
-              { id: 'habit', label: 'Habit Log', icon: Flame },
-            ].map((item) => {
-              const Icon = item.icon;
-              const isSelected = type === item.id;
-              return (
-                <button
-                  type="button"
-                  key={item.id}
-                  onClick={() => setType(item.id as any)}
-                  className={`p-2.5 rounded-xl border text-xs font-semibold flex flex-col items-center justify-center space-y-1 transition-all cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#22C55E]/20 border-[#22C55E] text-[#4ADE80]'
-                      : 'bg-gray-900/60 border border-[#2B4D3E] text-gray-400 hover:text-gray-200'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </button>
-              );
-            })}
+        <form onSubmit={handleSubmit} className="space-y-4 font-sans">
+          <div className="flex items-center space-x-2">
+            {(['task', 'note', 'decision'] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                onClick={() => setType(t)}
+                className={`flex-1 py-1.5 rounded-xl text-xs font-mono font-medium uppercase tracking-wider transition-all ${
+                  type === t
+                    ? 'bg-accent-emerald/20 text-accent-mint border border-accent-emerald'
+                    : 'bg-bg-elevated text-text-muted hover:text-text-primary border border-border-subtle'
+                }`}
+              >
+                {t}
+              </button>
+            ))}
           </div>
 
-          <div className="space-y-1">
-            <label className="text-xs font-semibold text-gray-300">Quick Record Content</label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="What deserves attention right now?"
-              className="w-full bg-[#071A12] border border-[#2B4D3E] rounded-xl px-3.5 py-2.5 text-xs text-gray-100 focus:outline-none focus:border-[#22C55E]"
-              autoFocus
-              required
-            />
-          </div>
+          <input
+            type="text"
+            placeholder={`Enter ${type} title...`}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            autoFocus
+            className="w-full px-3 py-2 text-xs sm:text-sm rounded-xl bg-bg-elevated border border-border-subtle text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent-emerald focus:ring-2 focus:ring-accent-mint transition-all duration-150"
+          />
 
-          <div className="pt-2 flex justify-end space-x-2">
-            <Button type="button" variant="ghost" size="sm" onClick={() => setIsOpen(false)}>
+          <div className="flex justify-end space-x-2 pt-2">
+            <Button variant="ghost" size="sm" type="button" onClick={() => setIsOpen(false)}>
               Cancel
             </Button>
-            <Button type="submit" variant="primary" size="sm" disabled={saved}>
-              {saved ? (
+            <Button variant="primary" size="sm" type="submit" disabled={!title.trim() || submitted}>
+              {submitted ? (
                 <>
-                  <Check className="w-3.5 h-3.5 mr-1" />
-                  <span>Progress Recorded!</span>
+                  <Check className="w-3.5 h-3.5 text-bg-primary mr-1" /> Captured!
                 </>
               ) : (
-                'Save to Command Center'
+                'Capture'
               )}
             </Button>
           </div>

@@ -64,8 +64,8 @@ export default function HomeWorkspacePage() {
   if (!dto || !analytics) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center p-8">
-        <div className="flex items-center space-x-3 text-gray-400 font-mono text-xs">
-          <div className="w-4 h-4 rounded-full border-2 border-[#C9A84C] border-t-transparent animate-spin" />
+        <div className="flex items-center space-x-3 text-text-muted font-mono text-xs">
+          <div className="w-4 h-4 rounded-full border-2 border-accent-gold border-t-transparent animate-spin" />
           <span>Loading Home Command Center...</span>
         </div>
       </div>
@@ -85,21 +85,21 @@ export default function HomeWorkspacePage() {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12 select-none">
+    <div className="space-y-6 max-w-7xl mx-auto pb-12 select-none font-sans">
       {/* 1. Who am I today? Executive Context Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-gray-800/80 gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-border-subtle gap-4">
         <div>
           <div className="flex items-center space-x-3 mb-1">
-            <h1 className="text-2xl md:text-3xl font-serif font-bold text-gray-100">
+            <h1 className="text-2xl md:text-3xl font-serif font-bold text-text-primary">
               {dto.user.name} — Executive Command Center
             </h1>
-            <Badge variant="gold">HIM OS V1</Badge>
+            <Badge variant="gold">HIM OS V1.5</Badge>
           </div>
-          <p className="text-xs text-gray-400 font-mono">{dto.todayDate} • Focused Execution Environment</p>
+          <p className="text-xs text-text-muted font-mono">{dto.todayDate} • Focused Execution Environment</p>
         </div>
         <div className="flex items-center space-x-3">
-          <Badge variant="green" className="text-xs py-1 px-3">
-            <Flame className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+          <Badge variant="emerald" className="text-xs py-1 px-3">
+            <Flame className="w-3.5 h-3.5 mr-1 text-accent-mint" />
             <span>Streak: 7 Days</span>
           </Badge>
           <Button variant="primary" size="sm" onClick={() => window.location.assign('/execution/daily')}>
@@ -125,7 +125,7 @@ export default function HomeWorkspacePage() {
           label="Total Net Worth"
           value={dto.stats.netWorthFormatted}
           badgeText="NGN (₦)"
-          badgeVariant="green"
+          badgeVariant="emerald"
           icon={Wallet}
           trend="up"
           trendValue="+12.4%"
@@ -135,21 +135,23 @@ export default function HomeWorkspacePage() {
           label="Market Readiness"
           value={`${analytics.careerScore.score}%`}
           badgeText="Flagship"
-          badgeVariant="blue"
+          badgeVariant="intel"
           icon={Briefcase}
           trend="up"
           trendValue="Senior Level"
           subtext="Work -> Projects -> CV pipeline score."
+          track="intel"
         />
         <MetricCard
           label="Books Completed"
           value={dto.stats.booksReadCount}
           badgeText="Learning Goal"
-          badgeVariant="purple"
+          badgeVariant="intel"
           icon={BookOpen}
           trend="neutral"
           trendValue="20 Target"
           subtext="Goethe B1 German Anki practice active."
+          track="intel"
         />
       </div>
 
@@ -161,44 +163,44 @@ export default function HomeWorkspacePage() {
       {/* 3. What matters most today? MITs & Execution Score Ring */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Execution Score Ring */}
-        <Card goldBorder className="lg:col-span-4 flex flex-col justify-between space-y-4">
+        <Card className="lg:col-span-4 flex flex-col justify-between space-y-4">
           <div className="flex justify-between items-start">
             <div>
-              <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider block">Life OS Analytics</span>
-              <h2 className="text-lg font-serif font-bold text-gray-100 mt-0.5">Execution Score Ring</h2>
+              <span className="text-[10px] font-mono text-text-muted uppercase tracking-wider block">Life OS Analytics</span>
+              <h2 className="text-lg font-serif font-bold text-text-primary mt-0.5">Execution Score Ring</h2>
             </div>
-            <Badge variant="gold" className="text-[10px]">Active</Badge>
+            <Badge variant="intel" className="text-[10px]">Active</Badge>
           </div>
 
           <div className="flex flex-col items-center justify-center py-2">
-            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" />
+            <ScoreRing score={analytics.overallLifeOSScore} size={130} strokeWidth={11} label="Overall Rating" track="emerald" />
           </div>
 
-          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-gray-800/80 text-center font-mono text-[11px]">
-            <div className="bg-gray-900/60 p-2 rounded border border-gray-800">
-              <span className="text-gray-500 block text-[9px]">Consistency</span>
-              <span className="font-bold text-emerald-400">{analytics.consistencyScore.score}%</span>
+          <div className="grid grid-cols-3 gap-2 pt-2 border-t border-border-subtle text-center font-mono text-[11px]">
+            <div className="bg-bg-subtle p-2 rounded-xl border border-border-subtle">
+              <span className="text-text-muted block text-[9px]">Consistency</span>
+              <span className="font-bold text-accent-mint">{analytics.consistencyScore.score}%</span>
             </div>
-            <div className="bg-gray-900/60 p-2 rounded border border-gray-800">
-              <span className="text-gray-500 block text-[9px]">Engineer</span>
-              <span className="font-bold text-[#C9A84C]">{analytics.engineerScore.score}%</span>
+            <div className="bg-bg-subtle p-2 rounded-xl border border-border-subtle">
+              <span className="text-text-muted block text-[9px]">Engineer</span>
+              <span className="font-bold text-intel-slate">{analytics.engineerScore.score}%</span>
             </div>
-            <div className="bg-gray-900/60 p-2 rounded border border-gray-800">
-              <span className="text-gray-500 block text-[9px]">Career</span>
-              <span className="font-bold text-purple-400">{analytics.careerScore.score}%</span>
+            <div className="bg-bg-subtle p-2 rounded-xl border border-border-subtle">
+              <span className="text-text-muted block text-[9px]">Career</span>
+              <span className="font-bold text-intel-slate">{analytics.careerScore.score}%</span>
             </div>
           </div>
         </Card>
 
         {/* Today's MITs Checklist */}
-        <Card goldBorder className="lg:col-span-5 flex flex-col justify-between space-y-4">
+        <Card className="lg:col-span-5 flex flex-col justify-between space-y-4">
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
-                <Target className="w-5 h-5 text-[#C9A84C]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Today's Most Important Outcomes</h2>
+                <Target className="w-5 h-5 text-accent-mint" />
+                <h2 className="text-lg font-serif font-bold text-text-primary">Today's Most Important Outcomes</h2>
               </div>
-              <Badge variant="gold" className="text-[10px]">MIT Checklist</Badge>
+              <Badge variant="emerald" className="text-[10px]">MIT Checklist</Badge>
             </div>
 
             <div className="space-y-2.5">
@@ -210,23 +212,23 @@ export default function HomeWorkspacePage() {
                 <div
                   key={mit.num}
                   onClick={() => handleMitToggle(mit.num)}
-                  className={`p-3 rounded-lg border transition-all cursor-pointer flex items-center justify-between ${
+                  className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-between ${
                     mit.done
-                      ? 'bg-emerald-950/20 border-emerald-500/30 text-gray-400 line-through'
-                      : 'bg-gray-900/60 border-gray-800 text-gray-200 hover:border-gray-700'
+                      ? 'bg-bg-subtle border-border-subtle text-text-muted line-through'
+                      : 'bg-bg-elevated border-border-subtle text-text-primary hover:border-accent-emerald'
                   }`}
                 >
                   <div className="flex items-center space-x-3">
                     <div
                       className={`w-4 h-4 rounded border flex items-center justify-center text-[10px] transition-colors ${
-                        mit.done ? 'bg-emerald-500 border-emerald-400 text-gray-950 font-bold' : 'border-gray-600'
+                        mit.done ? 'bg-accent-emerald border-accent-mint text-bg-primary font-bold' : 'border-border-subtle'
                       }`}
                     >
                       {mit.done && <Check className="w-3 h-3 stroke-[3]" />}
                     </div>
                     <span className="text-xs font-medium">{mit.text}</span>
                   </div>
-                  <Badge variant={mit.done ? 'green' : 'gray'} className="text-[9px]">
+                  <Badge variant={mit.done ? 'emerald' : 'default'} className="text-[9px]">
                     {mit.done ? 'Done' : `MIT #${mit.num}`}
                   </Badge>
                 </div>
@@ -247,17 +249,17 @@ export default function HomeWorkspacePage() {
           <div>
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center space-x-2">
-                <Clock className="w-5 h-5 text-[#C9A84C]" />
-                <h2 className="text-lg font-serif font-bold text-gray-100">Deep Work</h2>
+                <Clock className="w-5 h-5 text-intel-slate" />
+                <h2 className="text-lg font-serif font-bold text-text-primary">Deep Work</h2>
               </div>
-              <Badge variant="blue" className="text-[10px]">25m Focus Block</Badge>
+              <Badge variant="intel" className="text-[10px]">25m Focus Block</Badge>
             </div>
 
             <div className="text-center py-5">
-              <div className="text-4xl font-mono font-bold text-[#C9A84C] tracking-wider mb-1">
+              <div className="text-4xl font-mono font-bold text-accent-mint tracking-wider mb-1">
                 {formatTimer(timerSeconds)}
               </div>
-              <p className="text-[11px] text-gray-400">High-Focus Engineering Session</p>
+              <p className="text-[11px] text-text-muted">High-Focus Engineering Session</p>
             </div>
           </div>
 
@@ -298,34 +300,34 @@ export default function HomeWorkspacePage() {
         {weather && (
           <Card className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+              <div className="w-9 h-9 rounded-xl bg-intel-sapphire/20 border border-intel-sapphire/30 flex items-center justify-center text-intel-slate">
                 <CloudSun className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-200">{weather.city} • {weather.condition}</p>
-                <p className="text-[11px] text-gray-400 italic mt-0.5">{weather.recommendation}</p>
+                <p className="text-xs font-semibold text-text-primary">{weather.city} • {weather.condition}</p>
+                <p className="text-[11px] text-text-muted italic mt-0.5">{weather.recommendation}</p>
               </div>
             </div>
-            <span className="text-2xl font-mono font-bold text-[#C9A84C]">{weather.temperature_celsius}°C</span>
+            <span className="text-2xl font-mono font-bold text-intel-slate">{weather.temperature_celsius}°C</span>
           </Card>
         )}
 
         {github && (
           <Card className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-3">
-              <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <div className="w-9 h-9 rounded-xl bg-accent-emerald/20 border border-accent-emerald/30 flex items-center justify-center text-accent-mint">
                 <GitCommit className="w-5 h-5" />
               </div>
               <div>
-                <p className="text-xs font-semibold text-gray-200">GitHub Automation ({github.username})</p>
-                <p className="text-[11px] text-gray-400">
+                <p className="text-xs font-semibold text-text-primary">GitHub Automation ({github.username})</p>
+                <p className="text-[11px] text-text-muted">
                   Active Repos: {github.recent_repos.join(', ')}
                 </p>
               </div>
             </div>
             <div className="text-right font-mono">
-              <span className="text-xl font-bold text-emerald-400">{github.total_commits_today} Commits</span>
-              <p className="text-[9px] text-gray-500 font-sans">Synced via FastAPI</p>
+              <span className="text-xl font-bold text-accent-mint">{github.total_commits_today} Commits</span>
+              <p className="text-[9px] text-text-muted font-sans">Synced via FastAPI</p>
             </div>
           </Card>
         )}

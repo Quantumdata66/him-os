@@ -1,38 +1,42 @@
+'use client';
+
 import React from 'react';
 
 interface ScoreRingProps {
   score: number;
+  maxScore?: number;
   size?: number;
   strokeWidth?: number;
   label?: string;
-  sublabel?: string;
+  track?: 'emerald' | 'intel' | 'gold';
 }
 
 export const ScoreRing: React.FC<ScoreRingProps> = ({
   score,
+  maxScore = 100,
   size = 120,
   strokeWidth = 10,
   label,
-  sublabel,
+  track = 'emerald',
 }) => {
+  const percentage = Math.min(100, Math.max(0, (score / maxScore) * 100));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (score / 100) * circumference;
+  const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   let strokeColor = '#10B981'; // Emerald
-  if (score < 50) strokeColor = '#EF4444'; // Red
-  else if (score < 75) strokeColor = '#F59E0B'; // Amber
-  else if (score >= 85) strokeColor = '#C9A84C'; // Gold
+  if (track === 'intel') strokeColor = '#4776B4'; // Executive Sapphire
+  if (track === 'gold' || score >= maxScore) strokeColor = '#C9A84C'; // Executive Gold for 100% completion
 
   return (
-    <div className="flex flex-col items-center justify-center select-none">
-      <div className="relative inline-flex items-center justify-center">
+    <div className="flex flex-col items-center justify-center space-y-2 select-none font-sans">
+      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="transform -rotate-90">
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
-            stroke="#1F2937"
+            stroke="#28353D"
             strokeWidth={strokeWidth}
             fill="transparent"
           />
@@ -46,15 +50,17 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
             strokeLinecap="round"
-            className="transition-all duration-700 ease-out"
+            className="transition-all duration-500 ease-out"
           />
         </svg>
-        <div className="absolute flex flex-col items-center justify-center text-center">
-          <span className="text-2xl font-mono font-bold text-gray-100">{score}%</span>
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+          <span className="text-xl font-bold font-mono text-text-primary">{Math.round(score)}</span>
+          <span className="text-[9px] font-mono text-text-muted">/ {maxScore}</span>
         </div>
       </div>
-      {label && <span className="mt-2 text-xs font-semibold text-gray-200">{label}</span>}
-      {sublabel && <span className="text-[10px] text-gray-400">{sublabel}</span>}
+
+      {label && <span className="text-xs font-semibold text-text-secondary uppercase tracking-wider font-mono">{label}</span>}
     </div>
   );
 };
